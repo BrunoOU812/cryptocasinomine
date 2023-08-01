@@ -9,6 +9,9 @@ import Deposit from "../Deposit";
 import { DepositRouter } from "../depositRelated/DepositRouter";
 import ConfirmDeposit from "../ConfirmDeposit";
 import Login from "../Login";
+import Slots from "../games/slots/Slots";
+import Roulette from "../games/roulette/Roulette";
+import CRoulette from "../games/cRoulette/CRoulette";
 
 export default function PageContainer() {
   const { isExpanded } = useUI();
