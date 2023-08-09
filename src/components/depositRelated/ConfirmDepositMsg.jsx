@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function ConfirmDepositMsg() {
+export default function ConfirmDepositMsg(props) {
   return (
     <div
       className="deposit__complate"
@@ -14,12 +14,7 @@ export default function ConfirmDepositMsg() {
     >
       <h5>friendlyBulgarian</h5>
       <hr />
-      <p>
-        Paid $100Paid $100Paid $100Paid $100Paid $100Paid $100Paid $100Paid
-        $100Paid $100Paid $100Paid $100Paid $100Paid $100Paid $100Paid $100Paid
-        $100Paid $100Paid $100Paid $100Paid $100Paid $100Paid $100Paid $100Paid
-        $100Paid $100Paid $100Paid $100
-      </p>
+      <p>props.data.message</p>
     </div>
   );
 }

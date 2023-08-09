@@ -14,9 +14,9 @@ export default function Footer() {
               >
                 <div className="widget__items">
                   <div className="footer-head">
-                    <a href="#" className="footer-logo">
+                    <span href="#" className="footer-logo">
                       <h3 className="title">Casino</h3>
-                    </a>
+                    </span>
                   </div>
                   <div className="content-area">
                     <p>
@@ -26,24 +26,24 @@ export default function Footer() {
                     <h6>Follow Us</h6>
                     <ul className="social">
                       <li>
-                        <a href="#0" className="icon">
+                        <span className="icon">
                           <i className="fa-brands fa-facebook-f"></i>
-                        </a>
+                        </span>
                       </li>
                       <li>
-                        <a href="#0" className="icon">
+                        <span className="icon">
                           <i className="fa-brands fa-instagram"></i>
-                        </a>
+                        </span>
                       </li>
                       <li>
-                        <a href="#0" className="icon">
+                        <span className="icon">
                           <i className="fa-brands fa-linkedin-in"></i>
-                        </a>
+                        </span>
                       </li>
                       <li>
-                        <a href="#0" className="icon">
+                        <span className="icon">
                           <i className="fa-brands fa-twitter"></i>
-                        </a>
+                        </span>
                       </li>
                     </ul>
                   </div>
@@ -60,49 +60,49 @@ export default function Footer() {
                   <div className="content-area">
                     <ul className="quick-link">
                       <li>
-                        <a href="index.html">
+                        <span href="index.html">
                           <img
                             src="assets/img/footer/rightarrow.png"
                             alt="angle"
                           />{" "}
                           Home
-                        </a>
+                        </span>
                       </li>
                       <li>
-                        <a href="#0">
+                        <span>
                           <img
                             src="assets/img/footer/rightarrow.png"
                             alt="angle"
                           />{" "}
                           Slots
-                        </a>
+                        </span>
                       </li>
                       <li>
-                        <a href="#0">
+                        <span>
                           <img
                             src="assets/img/footer/rightarrow.png"
                             alt="angle"
                           />{" "}
                           Tournament
-                        </a>
+                        </span>
                       </li>
                       <li>
-                        <a href="#0">
+                        <span>
                           <img
                             src="assets/img/footer/rightarrow.png"
                             alt="angle"
                           />{" "}
                           Jackpots
-                        </a>
+                        </span>
                       </li>
                       <li>
-                        <a href="livecasino.html">
+                        <span href="livecasino.html">
                           <img
                             src="assets/img/footer/rightarrow.png"
                             alt="angle"
                           />{" "}
                           Live Games
-                        </a>
+                        </span>
                       </li>
                     </ul>
                   </div>
@@ -119,22 +119,22 @@ export default function Footer() {
                   <div className="content-area">
                     <ul className="quick-link">
                       <li>
-                        <a href="#0">
+                        <span>
                           <img
                             src="assets/img/footer/rightarrow.png"
                             alt="angle"
                           />{" "}
                           Faqs
-                        </a>
+                        </span>
                       </li>
                       <li>
-                        <a href="#0">
+                        <span>
                           <img
                             src="assets/img/footer/rightarrow.png"
                             alt="angle"
                           />{" "}
                           Support
-                        </a>
+                        </span>
                       </li>
                     </ul>
                   </div>
@@ -171,26 +171,17 @@ export default function Footer() {
           <div className="footer__bottom">
             <p className="text-white">
               Copyright &copy; 2023,{" "}
-              <a href="#0" className="text--base">
-                SportOdds
-              </a>{" "}
-              - All Right Reserved
+              <span className="text--base">SportOdds</span> - All Right Reserved
             </p>
             <ul className="bottom__ling">
               <li>
-                <a href="#0" className="text-white">
-                  Affiliate program
-                </a>
+                <span className="text-white">Affiliate program</span>
               </li>
               <li>
-                <a href="#0" className="text-white">
-                  Terms & conditions
-                </a>
+                <span className="text-white">Terms & conditions</span>
               </li>
               <li>
-                <a href="#0" className="text-white">
-                  Bonus terms & conditions
-                </a>
+                <span className="text-white">Bonus terms & conditions</span>
               </li>
             </ul>
           </div>

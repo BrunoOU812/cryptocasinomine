@@ -8,10 +8,13 @@ import { useUI } from "../../contexts/UIContext";
 import Deposit from "../Deposit";
 import { DepositRouter } from "../depositRelated/DepositRouter";
 import ConfirmDeposit from "../ConfirmDeposit";
+import RSGold from "../RSGold";
+import CryptoDeposit from "../CryptoDeposit";
 import Login from "../Login";
 import Slots from "../games/slots/Slots";
 import Roulette from "../games/roulette/Roulette";
 import CRoulette from "../games/cRoulette/CRoulette";
+import RouletteGame from "../games/rouletteGame/RouletteGame";
 
 export default function PageContainer() {
   const { isExpanded } = useUI();
@@ -46,6 +49,8 @@ export default function PageContainer() {
               <Route path="/" element={<Casino />} />
               <Route path="/deposit" element={<Deposit />} />
               <Route path="/confirmDeposit" element={<ConfirmDeposit />} />
+              <Route path="/RSGold" element={<RSGold />} />
+              <Route path="/crypto_deposit" element={<CryptoDeposit />} />
             </Routes>
             <Footer />
           </div>

@@ -1,11 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import CompleteYourDeposit from "./depositRelated/CompleteYourDeposit";
-import Message from "./chatRelated/Message";
 import ConfirmDepositMsg from "./depositRelated/ConfirmDepositMsg";
-
+import DepositInfo from "./depositRelated/DepositInfo";
+import { Link } from "react-router-dom";
+import { useUI } from "../contexts/UIContext";
 export default function Deposit() {
+  const { depositResponses } = useUI();
   useEffect(() => {
     axios
       .get("http://localhost:8000/api/deposits")
@@ -16,7 +18,8 @@ export default function Deposit() {
       .catch((error) => {
         toast.error(JSON.stringify(error.message));
       });
-  }, []);
+  }, [depositResponses]);
+
   return (
     <div className="container">
       <div className="row g-100 my-4">
@@ -34,7 +37,9 @@ export default function Deposit() {
             id="confirmChat"
             style={{ flexGrow: 1, overflowY: "scroll", maxHeight: "700px" }}
           >
-            <ConfirmDepositMsg></ConfirmDepositMsg>
+            {depositResponses.map((response, index) => (
+              <ConfirmDepositMsg key={index} depositResponse={response} />
+            ))}
           </div>
           <form
             className="d-flex justify-content-between align-content-center p-3"
