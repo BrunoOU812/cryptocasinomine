@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useUI } from "../../contexts/UIContext";
 import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
 export default function CompleteYourDeposit() {
   const [amount, setAmount] = useState("");
   const [inGameName, setInGameName] = useState("");
   const [comment, setComment] = useState("");
   const { setDepositResponse } = useUI();
+  const { register, reset, error, handleSubmit } = useForm();
   const handleAmountChange = (event) => {
     setAmount(event.target.value);
   };
@@ -88,7 +90,7 @@ export default function CompleteYourDeposit() {
       >
         <h3>Complete Your Deposit</h3>
 
-        <form action="#">
+        <form action="#" onSubmit={handleSubmit(handleDepositNowClick)}>
           <div className="deposit__wallet">
             <div className="deopsit__wallet__items" style={{ border: "none" }}>
               <p>* Amount</p>
@@ -100,6 +102,7 @@ export default function CompleteYourDeposit() {
                 placeholder="Enter Amount"
                 value={amount}
                 autoComplete="off"
+                ref={register}
                 onChange={handleAmountChange}
               />
             </div>
@@ -112,6 +115,7 @@ export default function CompleteYourDeposit() {
                 id="eemail"
                 placeholder="User Name"
                 autoComplete="off"
+                ref={register}
                 onChange={handleInGameNameChange}
               />
             </div>
@@ -131,6 +135,7 @@ export default function CompleteYourDeposit() {
                   color: "#858B9D",
                   fontSize: "12px",
                 }}
+                ref={register}
                 onChange={handleCommentChange}
                 name=""
                 id="eemail"
@@ -140,9 +145,7 @@ export default function CompleteYourDeposit() {
             </div>
           </div>
           <div className="btn-area">
-            <button onClick={handleDepositNowClick} className="cmn--btn">
-              <span>Deposit Now</span>
-            </button>
+            <input type="submit" className="cmn--btn" value="Deposit Now" />
           </div>
         </form>
       </div>
