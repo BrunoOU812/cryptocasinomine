@@ -50,6 +50,7 @@ export default function PageContainer() {
               <Route path="/deposit" element={<Deposit />} />
               <Route path="/confirmDeposit" element={<ConfirmDeposit />} />
               <Route path="/RSGold" element={<RSGold />} />
+              <Route path="/RouletteGame" element={<RouletteGame />} />
               <Route path="/crypto_deposit" element={<CryptoDeposit />} />
             </Routes>
             <Footer />
