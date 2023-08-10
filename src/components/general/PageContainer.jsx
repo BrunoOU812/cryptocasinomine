@@ -11,15 +11,13 @@ import ConfirmDeposit from "../ConfirmDeposit";
 import RSGold from "../RSGold";
 import CryptoDeposit from "../CryptoDeposit";
 import Login from "../Login";
-import Slots from "../games/slots/Slots";
-import Roulette from "../games/roulette/Roulette";
-import CRoulette from "../games/cRoulette/CRoulette";
+import Register from "../Register";
 import RouletteGame from "../games/rouletteGame/RouletteGame";
 
 export default function PageContainer() {
   const { isExpanded } = useUI();
   const maxWidthValue = isExpanded ? "100% - 342px" : "100%";
-
+  const { showLogin, showRegistered } = useUI();
   return (
     <Router>
       <Header />
@@ -38,6 +36,8 @@ export default function PageContainer() {
           style={{ maxWidth: `calc(${maxWidthValue})` }}
         >
           <DepositRouter />
+          {showLogin && <Login />}
+          {showRegistered && <Register />}
           <div className="flex-grow-1 z-2 ">
             <div
               className="modal event__modal"

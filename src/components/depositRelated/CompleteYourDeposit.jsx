@@ -5,61 +5,41 @@ import { useUI } from "../../contexts/UIContext";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 export default function CompleteYourDeposit() {
-  const [amount, setAmount] = useState("");
-  const [inGameName, setInGameName] = useState("");
-  const [comment, setComment] = useState("");
   const { setDepositResponse } = useUI();
   const { register, reset, error, handleSubmit } = useForm();
-  const handleAmountChange = (event) => {
-    setAmount(event.target.value);
-  };
 
-  const handleInGameNameChange = (event) => {
-    setInGameName(event.target.value);
-  };
-
-  const handleCommentChange = (event) => {
-    setComment(event.target.value);
-  };
-
-  const handleDepositNowClick = async () => {
+  const handleDepositNowClick = async (data) => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/customers?name=${inGameName}`
+        `http://localhost:8000/api/customers?name=${data.name}`
       );
       const customerData = response.data.data;
       const now = new Date();
-
-      // Obtén los componentes de la fecha y hora
       const year = now.getFullYear();
       const month = (now.getMonth() + 1).toString().padStart(2, "0");
       const day = now.getDate().toString().padStart(2, "0");
       const hours = now.getHours().toString().padStart(2, "0");
       const minutes = now.getMinutes().toString().padStart(2, "0");
       const seconds = now.getSeconds().toString().padStart(2, "0");
-
-      // Formatea la cadena de fecha y hora en el formato deseado
       const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 
       if (customerData.length > 0) {
         const customerId = customerData[0].id;
 
         const deposit = {
-          to: inGameName,
+          to: data.name,
           customer_id: customerId,
-          value: amount,
+          value: data.amount,
           datetime: formattedDateTime,
           crypto_id: 1,
           status: "Pending",
-          comment: comment,
+          comment: data.comment,
         };
         setDepositResponse(deposit);
 
         try {
           await axios.post("http://localhost:8000/api/deposits", deposit);
-          setAmount("");
-          setInGameName("");
-          setComment("");
+          reset();
         } catch (error) {
           toast.error("Error making deposit:", error);
         }
@@ -99,11 +79,10 @@ export default function CompleteYourDeposit() {
               <input
                 type="text"
                 id="dAmount"
+                name="amount"
                 placeholder="Enter Amount"
-                value={amount}
                 autoComplete="off"
-                ref={register}
-                onChange={handleAmountChange}
+                {...register("amount")}
               />
             </div>
             <div className="deopsit__wallet__items" style={{ border: "none" }}>
@@ -111,12 +90,12 @@ export default function CompleteYourDeposit() {
             </div>
             <div className="single-input">
               <input
+                name="name"
                 type="text"
                 id="eemail"
                 placeholder="User Name"
                 autoComplete="off"
-                ref={register}
-                onChange={handleInGameNameChange}
+                {...register("name")}
               />
             </div>
             <br />
@@ -135,9 +114,8 @@ export default function CompleteYourDeposit() {
                   color: "#858B9D",
                   fontSize: "12px",
                 }}
-                ref={register}
-                onChange={handleCommentChange}
-                name=""
+                {...register("comment")}
+                name="comment"
                 id="eemail"
                 cols="30"
                 rows="10"

@@ -8,16 +8,6 @@ import { Link } from "react-router-dom";
 import { useUI } from "../contexts/UIContext";
 export default function Deposit() {
   const { depositResponses } = useUI();
-  useEffect(() => {
-    axios
-      .get("http://localhost:8000/api/deposits")
-      .then((response) => {
-        console.log(JSON.stringify(response.data.message));
-      })
-      .catch((error) => {
-        toast.error(JSON.stringify(error.message));
-      });
-  }, [depositResponses]);
 
   return (
     <div className="container">

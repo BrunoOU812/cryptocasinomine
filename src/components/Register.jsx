@@ -2,33 +2,33 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useUI } from "../contexts/UIContext";
-import { useForm } from "react-hook-form";
 export default function Login() {
-  const {
-    showLogin,
-    setShowLogin,
-    setShowRegistered,
-    setLogged,
-    setCustomerData,
-  } = useUI();
-  const { register, reset, error, handleSubmit } = useForm();
-  const handleLogin = async (data) => {
+  const [user, setUser] = useState("");
+  const [password, setPassword] = useState("");
+  const { showRegistered, setShowLogin, setShowRegistered } = useUI();
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
     try {
-      const response = await axios.get(
-        `http://localhost:8000/api/customers?name=${data.name}`
+      const response = await axios.post(
+        "./login",
+        {
+          email: "Admin",
+          password: "Test123",
+        },
+        {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+        }
       );
-      console.log("id", response.data.data[0].id);
-      if (response.data.data.length > 0) {
-        toast.success("Logged successfully!");
-        reset();
-        setLogged(true);
-        setShowLogin(false);
-        setCustomerData(response.data.data[0]);
-      } else {
-        toast.error("User non existant!");
-      }
+
+      const accessToken = response.data.token;
+      localStorage.setItem("access_token", accessToken);
+      console.log("Inicio de sesión exitoso. Token de acceso:", accessToken);
+      toast.success("success");
     } catch (error) {
-      toast.error("Error!");
+      console.error("Error en el inicio de sesión:", error);
+      toast.error("Error", error.message);
     }
   };
   return (
@@ -48,7 +48,7 @@ export default function Login() {
           <div className="modal-header">
             <button
               onClick={() => {
-                setShowLogin(false);
+                setShowRegistered(false);
               }}
               type="button"
               className="btn-close"
@@ -73,37 +73,41 @@ export default function Login() {
                         aria-labelledby="#contact-tab3"
                       >
                         <div className="form__tabs__wrap">
-                          <form
-                            action="#0"
-                            onSubmit={handleSubmit(handleLogin)}
-                          >
+                          <form action="#0" onSubmit={handleLogin}>
                             <div className="form__grp">
-                              <label htmlFor="email34">Your user name</label>
+                              <label htmlFor="email34">Email</label>
                               <input
-                                name="name"
                                 type="text"
-                                placeholder="User name"
-                                {...register("name")}
+                                placeholder="User"
+                                value={user}
+                                onChange={(e) => setUser(e.target.value)}
                               />
+                            </div>
+                            <div className="form__grp">
+                              <label htmlFor="toggle-password9">Confrim</label>
+                              <input
+                                type="password"
+                                placeholder="Password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                              />
+                              <span className="fa fa-fw fa-eye field-icon toggle-password9"></span>
                             </div>
                             <div className="create__btn">
-                              <input
-                                style={{ color: "white" }}
-                                type="submit"
-                                className="cmn--btn"
-                                value="Log in"
-                              />
+                              <button type="submit" className="cmn--btn">
+                                <span style={{ color: "white" }}>Sign up</span>
+                              </button>
                             </div>
                             <p>
-                              Don't have an account?{" "}
+                              Do you have an account?{" "}
                               <a
                                 href="#0"
                                 onClick={() => {
-                                  setShowRegistered((prevState) => !prevState);
-                                  setShowLogin(false);
+                                  setShowLogin((prevState) => !prevState);
+                                  setShowRegistered(false);
                                 }}
                               >
-                                Register
+                                Login
                               </a>
                             </p>
                           </form>

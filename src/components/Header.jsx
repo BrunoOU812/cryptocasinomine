@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../App.css";
 import { Link } from "react-router-dom";
 import { useUI } from "../contexts/UIContext";
+import { toast } from "react-toastify";
 export default function Header() {
-  const { totalAmount } = useUI();
+  const { totalAmount, setShowLogin, setShowRegistered, logged, setLogged } =
+    useUI();
   return (
     <div>
       <header
@@ -24,51 +26,78 @@ export default function Header() {
                   <span className="h4">Casino</span>
                 </Link>
               </div>
-              {/* <div className="lang d-flex align-items-center px-2">
+            </div>
+            {logged && (
+              <div className="mneu-btn-grp">
                 <div className="language__wrap">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <span
+                    style={{
+                      fontWeight: "bold",
+                      color: "white",
+                      fontSize: "20px",
+                    }}
+                  >
+                    ${totalAmount}
+                  </span>
                   <div className="flag">
                     <i className="fas fa-money-bill text-warning h-100   h4"></i>
                   </div>
-                  <select name="flag" id="flag-img2">
-                    <option value="1">9900</option>
-                  </select>
                 </div>
-                <div className="header-bar d-lg-none">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
-              </div> */}
-            </div>
-            <div className="mneu-btn-grp">
-              <div className="language__wrap">
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <span
+                <Link
+                  to={"/deposit"}
+                  className="cmn--btn"
+                  data-bs-toggle="modal"
+                >
+                  <span className="rela">Deposit</span>
+                </Link>
+                <Link to={"/"} className="cmn--btn2" data-bs-toggle="modal">
+                  <span className="rela">Withdraw</span>
+                </Link>
+                <a
                   style={{
                     fontWeight: "bold",
                     color: "white",
-                    fontSize: "20px",
+                    fontSize: "15px",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    setLogged(false);
+                    toast.success("Logged out!");
                   }}
                 >
-                  ${totalAmount}
-                </span>
-                <div
-                  className="flag"
-                  // style={{ display: "flex", alignItems: "center" }}
-                >
-                  <i className="fas fa-money-bill text-warning h-100   h4"></i>
-                </div>
-                {/* <select name="flag" id="flag-img2">
-                  <option value="1">9900</option>
-                </select> */}
+                  Log Out
+                </a>
               </div>
-              <Link to={"/deposit"} className="cmn--btn" data-bs-toggle="modal">
-                <span className="rela">Deposit</span>
-              </Link>
-              <Link to={"/"} className="cmn--btn2" data-bs-toggle="modal">
-                <span className="rela">Withdraw</span>
-              </Link>
-            </div>
+            )}
+            {!logged && (
+              <div className="mneu-btn-grp">
+                <button
+                  className="cmn--btn"
+                  data-bs-toggle="modal"
+                  onClick={() => {
+                    setShowLogin((prevState) => !prevState);
+                    setShowRegistered(false);
+                  }}
+                >
+                  <span className="rela" style={{ color: "white" }}>
+                    Log in
+                  </span>
+                </button>
+                <button
+                  className="cmn--btn2"
+                  data-bs-toggle="modal"
+                  onClick={() => {
+                    setShowRegistered((prevState) => !prevState);
+                    setShowLogin(false);
+                  }}
+                >
+                  <span className="rela" style={{ color: "white" }}>
+                    Register
+                  </span>
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </header>
