@@ -12,6 +12,7 @@ export default function UIContextProvider({ children }) {
   const [isExpanded, setIsExpanded] = useState(true);
   const [customerData, setCustomerData] = useState(null); // Almacena los datos del cliente
   const [depositResponses, setDepositResponses] = useState([]);
+  const [totalAmount, setTotalAmount] = useState(0);
 
   useEffect(() => {
     // Obtener los datos del cliente con ID 2
@@ -25,6 +26,22 @@ export default function UIContextProvider({ children }) {
       });
   }, []);
 
+  useEffect(() => {
+    // Obtener los datos del cliente con ID 2
+    axios
+      .get("http://localhost:8000/api/deposits")
+      .then((response) => {
+        let values = Array(response.data.data.length)
+          .fill()
+          .map((item, i) => response.data.data[i].value)
+          .reduce((a, b) => a + b);
+        setTotalAmount(values);
+      })
+      .catch((error) => {
+        console.error("Error al obtener datos del cliente:", error);
+      });
+  }, [depositResponses]);
+
   const setDepositResponse = (response) => {
     setDepositResponses([...depositResponses, response]);
   };
@@ -36,9 +53,10 @@ export default function UIContextProvider({ children }) {
   const uiContextValues = {
     isExpanded: isExpanded,
     toggleExpanded: toggleExpanded,
-    customerData: customerData, // Agregar los datos del cliente al contexto
-    depositResponses: depositResponses, // Agregar las respuestas de depósito al contexto
-    setDepositResponse: setDepositResponse, // Agregar la función de agregar respuestas de depósito al contexto
+    customerData: customerData,
+    depositResponses: depositResponses,
+    setDepositResponse: setDepositResponse,
+    totalAmount: totalAmount,
   };
 
   return (

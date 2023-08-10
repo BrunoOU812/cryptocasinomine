@@ -12,8 +12,7 @@ export default function Deposit() {
     axios
       .get("http://localhost:8000/api/deposits")
       .then((response) => {
-        console.log(response.data);
-        toast.success(JSON.stringify(response.data.message));
+        console.log(JSON.stringify(response.data.message));
       })
       .catch((error) => {
         toast.error(JSON.stringify(error.message));

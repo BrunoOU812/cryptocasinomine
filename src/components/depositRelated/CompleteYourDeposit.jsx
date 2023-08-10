@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useUI } from "../../contexts/UIContext";
-
+import { toast } from "react-toastify";
 export default function CompleteYourDeposit() {
   const [amount, setAmount] = useState("");
   const [inGameName, setInGameName] = useState("");
@@ -21,47 +21,51 @@ export default function CompleteYourDeposit() {
   };
 
   const handleDepositNowClick = async () => {
-    console.log(inGameName);
-
     try {
       const response = await axios.get(
         `http://localhost:8000/api/customers?name=${inGameName}`
       );
-      console.log(response);
       const customerData = response.data.data;
+      const now = new Date();
+
+      // Obtén los componentes de la fecha y hora
+      const year = now.getFullYear();
+      const month = (now.getMonth() + 1).toString().padStart(2, "0");
+      const day = now.getDate().toString().padStart(2, "0");
+      const hours = now.getHours().toString().padStart(2, "0");
+      const minutes = now.getMinutes().toString().padStart(2, "0");
+      const seconds = now.getSeconds().toString().padStart(2, "0");
+
+      // Formatea la cadena de fecha y hora en el formato deseado
+      const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
       if (customerData.length > 0) {
         const customerId = customerData[0].id;
-        console.log(
-          response.data.data[0].name,
-          customerId,
-          amount,
-          new Date().toISOString()
-        );
-        const depositResponse = {
+
+        const deposit = {
+          to: inGameName,
           customer_id: customerId,
-          amount: amount,
-          datetime: "2023-08-09 14:00:00",
+          value: amount,
+          datetime: formattedDateTime,
           crypto_id: 1,
           status: "Pending",
+          comment: comment,
         };
-        console.log(depositResponse);
-        setDepositResponse(depositResponse); // Asumiendo que addDepositResponse es la función del contexto para agregar respuestas
+        setDepositResponse(deposit);
+
         try {
-          const postResponse = await axios.post(
-            "http://localhost:8000/api/deposits",
-            depositResponse
-          );
-          console.log("Deposit successful:", postResponse.data);
-          // Aquí puedes hacer algo con la respuesta, como mostrar un mensaje
+          await axios.post("http://localhost:8000/api/deposits", deposit);
+          setAmount("");
+          setInGameName("");
+          setComment("");
         } catch (error) {
-          console.error("Error making deposit:", error);
-          // Aquí puedes manejar el error, como mostrar un mensaje de error
+          toast.error("Error making deposit:", error);
         }
       } else {
-        console.error("Customer not found");
+        toast.error("First complete the form correctly");
       }
     } catch (error) {
-      console.error("Error fetching customer data:", error);
+      toast.error("Error fetching customer data:", error);
     }
   };
 
@@ -87,7 +91,7 @@ export default function CompleteYourDeposit() {
         <form action="#">
           <div className="deposit__wallet">
             <div className="deopsit__wallet__items" style={{ border: "none" }}>
-              <p>Amount</p>
+              <p>* Amount</p>
             </div>
             <div className="single-input mb__20">
               <input
@@ -100,13 +104,13 @@ export default function CompleteYourDeposit() {
               />
             </div>
             <div className="deopsit__wallet__items" style={{ border: "none" }}>
-              <p>Your-in-game-name:</p>
+              <p>* Your-in-game-name:</p>
             </div>
             <div className="single-input">
               <input
                 type="text"
                 id="eemail"
-                placeholder="Email"
+                placeholder="User Name"
                 autoComplete="off"
                 onChange={handleInGameNameChange}
               />

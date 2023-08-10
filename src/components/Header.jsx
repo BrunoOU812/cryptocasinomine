@@ -1,7 +1,9 @@
 import React from "react";
 import "../App.css";
 import { Link } from "react-router-dom";
+import { useUI } from "../contexts/UIContext";
 export default function Header() {
+  const { totalAmount } = useUI();
   return (
     <div>
       <header
@@ -40,12 +42,25 @@ export default function Header() {
             </div>
             <div className="mneu-btn-grp">
               <div className="language__wrap">
-                <div className="flag">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span
+                  style={{
+                    fontWeight: "bold",
+                    color: "white",
+                    fontSize: "20px",
+                  }}
+                >
+                  ${totalAmount}
+                </span>
+                <div
+                  className="flag"
+                  // style={{ display: "flex", alignItems: "center" }}
+                >
                   <i className="fas fa-money-bill text-warning h-100   h4"></i>
                 </div>
-                <select name="flag" id="flag-img2">
+                {/* <select name="flag" id="flag-img2">
                   <option value="1">9900</option>
-                </select>
+                </select> */}
               </div>
               <Link to={"/deposit"} className="cmn--btn" data-bs-toggle="modal">
                 <span className="rela">Deposit</span>
