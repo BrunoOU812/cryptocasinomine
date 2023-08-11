@@ -4,10 +4,12 @@ import { toast } from "react-toastify";
 import CompleteYourDeposit from "./depositRelated/CompleteYourDeposit";
 import DepositInfo from "./depositRelated/DepositInfo";
 import { Link } from "react-router-dom";
+import { useUI } from "../contexts/UIContext";
 export default function Deposit() {
+  const { api } = useUI();
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/deposits")
+      .get(`${api}/api/deposits`)
       .then((response) => {
         console.log(response.data);
         toast.success(JSON.stringify(response.data.message));

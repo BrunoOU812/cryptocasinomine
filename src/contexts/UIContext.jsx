@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { API_BASE_URL } from "../apiConfig";
 export const UICreateContext = createContext();
 export const UIUpdateContext = createContext();
 export const useUI = () => {
@@ -24,7 +25,7 @@ export default function UIContextProvider({ children }) {
       if (logged && customerData) {
         try {
           const response = await axios.get(
-            `http://localhost:8000/api/deposits?customer_id=${customerData.id}`
+            `${API_BASE_URL}/api/deposits?customer_id=${customerData.id}`
           );
           const values = response.data.data.map((item) => item.value);
           const newTotalAmount =
@@ -39,7 +40,7 @@ export default function UIContextProvider({ children }) {
           };
           console.log(depositResponses);
           await axios.put(
-            `http://localhost:8000/api/customers/${customerData.id}`,
+            `${API_BASE_URL}/api/customers/${customerData.id}`,
             modifiedCustomerData
           );
           setTotalAmount(newTotalAmount);
@@ -55,15 +56,16 @@ export default function UIContextProvider({ children }) {
 
   useEffect(() => {
     async function fetchData() {
-      console.log({
-        id: customerData.id,
-        name: customerData.name,
-        email: customerData.email,
-        status: customerData.status,
-        muted: customerData.muted,
-        tokens: "newTotalAmount",
-      });
       if (logged && customerData) {
+        console.log({
+          id: customerData.id,
+          name: customerData.name,
+          email: customerData.email,
+          status: customerData.status,
+          muted: customerData.muted,
+          tokens: "newTotalAmount",
+        });
+
         try {
           const newTotalAmount =
             totalAmount -
@@ -79,7 +81,7 @@ export default function UIContextProvider({ children }) {
           console.log(newTotalAmount);
           if (newTotalAmount >= 0) {
             await axios.put(
-              `http://localhost:8000/api/customers/${customerData.id}`,
+              `${API_BASE_URL}/api/customers/${customerData.id}`,
               modifiedCustomerData
             );
             setTotalAmount(newTotalAmount);
@@ -126,6 +128,7 @@ export default function UIContextProvider({ children }) {
     setShowRegistered: setShowRegistered,
     customerData: customerData,
     setCustomerData: setCustomerData,
+    api: API_BASE_URL,
   };
 
   return (

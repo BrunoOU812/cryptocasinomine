@@ -10,12 +10,13 @@ export default function Login() {
     setShowRegistered,
     setLogged,
     setCustomerData,
+    api,
   } = useUI();
   const { register, reset, error, handleSubmit } = useForm();
   const handleLogin = async (data) => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/customers?name=${data.name}`
+        `${api}/api/customers?name=${data.name}`
       );
       console.log("id", response.data.data[0].id);
       if (response.data.data.length > 0) {

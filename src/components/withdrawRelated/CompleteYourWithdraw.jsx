@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 
 export default function CompleteYourWithdraw() {
-  const { setWithdrawResponses, customerData } = useUI();
+  const { setWithdrawResponses, customerData, api } = useUI();
   const { register, reset, handleSubmit } = useForm();
 
   const handleWithdrawNowClick = async (data) => {
@@ -33,7 +33,7 @@ export default function CompleteYourWithdraw() {
       console.log(customerData.tokens - +data.amount);
       if (customerData.tokens - +data.amount >= 0) {
         try {
-          await axios.post("http://localhost:8000/api/withdraws", withdraw);
+          await axios.post(`${api}/api/withdraws`, withdraw);
           reset();
         } catch (error) {
           toast.error("Error making withdraw: " + error.message);

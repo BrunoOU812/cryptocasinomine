@@ -5,13 +5,13 @@ import { useUI } from "../../contexts/UIContext";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 export default function CompleteYourDeposit() {
-  const { setDepositResponse } = useUI();
+  const { setDepositResponse, api } = useUI();
   const { register, reset, error, handleSubmit } = useForm();
 
   const handleDepositNowClick = async (data) => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/customers?name=${data.name}`
+        `${api}/api/customers?name=${data.name}`
       );
       const customerData = response.data.data;
       const now = new Date();
@@ -38,7 +38,7 @@ export default function CompleteYourDeposit() {
         setDepositResponse(deposit);
 
         try {
-          await axios.post("http://localhost:8000/api/deposits", deposit);
+          await axios.post(`${api}/api/deposits`, deposit);
           reset();
         } catch (error) {
           toast.error("Error making deposit:", error);

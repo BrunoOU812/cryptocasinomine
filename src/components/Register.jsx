@@ -5,11 +5,11 @@ import { useUI } from "../contexts/UIContext";
 import { useForm } from "react-hook-form";
 export default function Login() {
   const { register, error, handleSubmit, reset } = useForm();
-  const { setShowLogin, setShowRegistered } = useUI();
+  const { setShowLogin, setShowRegistered, api } = useUI();
   const handleLogin = async (data) => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/customers?name=${data.name}`
+        `${api}/api/customers?name=${data.name}`
       );
       console.log(response);
       if (response.data.data[0]) {
@@ -22,10 +22,7 @@ export default function Login() {
           muted: false,
           tokens: 0,
         };
-        await axios.post(
-          `http://localhost:8000/api/customers?name=${data.name}`,
-          user
-        );
+        await axios.post(`${api}/api/customers?name=${data.name}`, user);
         toast.success("Created successfully!");
         reset();
         setShowRegistered(false);
