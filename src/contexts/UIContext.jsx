@@ -13,6 +13,7 @@ export default function UIContextProvider({ children }) {
   const [isExpanded, setIsExpanded] = useState(true);
   const [customerData, setCustomerData] = useState(null); // Almacena los datos del cliente
   const [depositResponses, setDepositResponses] = useState([]);
+  const [withdrawResponses, setWithdrawResponses] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
   const [logged, setLogged] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
@@ -28,12 +29,6 @@ export default function UIContextProvider({ children }) {
           const values = response.data.data.map((item) => item.value);
           const newTotalAmount =
             totalAmount + +depositResponses[depositResponses.length - 1].value;
-          console.log(
-            newTotalAmount,
-            typeof newTotalAmount,
-            totalAmount,
-            values[values.length - 1]
-          );
           const modifiedCustomerData = {
             id: customerData.id,
             name: customerData.name,
@@ -50,13 +45,55 @@ export default function UIContextProvider({ children }) {
           setTotalAmount(newTotalAmount);
         } catch (error) {
           console.error("Error obtaining user data:", error);
-          toast.error("Error obtaining user data: " + error.message);
+          // toast.error("Error obtaining user data: " + error.message);
         }
       }
     }
 
     fetchData();
   }, [depositResponses]);
+
+  useEffect(() => {
+    async function fetchData() {
+      console.log({
+        id: customerData.id,
+        name: customerData.name,
+        email: customerData.email,
+        status: customerData.status,
+        muted: customerData.muted,
+        tokens: "newTotalAmount",
+      });
+      if (logged && customerData) {
+        try {
+          const newTotalAmount =
+            totalAmount -
+            +withdrawResponses[withdrawResponses.length - 1].tokens;
+          const modifiedCustomerData = {
+            id: customerData.id,
+            name: customerData.name,
+            email: customerData.email,
+            status: customerData.status,
+            muted: customerData.muted,
+            tokens: newTotalAmount,
+          };
+          console.log(newTotalAmount);
+          if (newTotalAmount >= 0) {
+            await axios.put(
+              `http://localhost:8000/api/customers/${customerData.id}`,
+              modifiedCustomerData
+            );
+            setTotalAmount(newTotalAmount);
+          }
+        } catch (error) {
+          toast.error("Error obtaining user data:", error);
+        }
+      } else {
+        toast.error("Not working");
+      }
+    }
+
+    fetchData();
+  }, [withdrawResponses]);
 
   useEffect(() => {
     {
@@ -78,6 +115,8 @@ export default function UIContextProvider({ children }) {
     customerData: customerData,
     depositResponses: depositResponses,
     setDepositResponse: setDepositResponse,
+    withdrawResponses: withdrawResponses,
+    setWithdrawResponses: setWithdrawResponses,
     totalAmount: totalAmount,
     logged: logged,
     setLogged: setLogged,

@@ -2,30 +2,34 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useUI } from "../contexts/UIContext";
+import { useForm } from "react-hook-form";
 export default function Login() {
-  const [user, setUser] = useState("");
-  const [password, setPassword] = useState("");
-  const { showRegistered, setShowLogin, setShowRegistered } = useUI();
-  const handleLogin = async (e) => {
-    e.preventDefault();
-
+  const { register, error, handleSubmit, reset } = useForm();
+  const { setShowLogin, setShowRegistered } = useUI();
+  const handleLogin = async (data) => {
     try {
-      const response = await axios.post(
-        "./login",
-        {
-          email: "Admin",
-          password: "Test123",
-        },
-        {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-        }
+      const response = await axios.get(
+        `http://localhost:8000/api/customers?name=${data.name}`
       );
-
-      const accessToken = response.data.token;
-      localStorage.setItem("access_token", accessToken);
-      console.log("Inicio de sesión exitoso. Token de acceso:", accessToken);
-      toast.success("success");
+      console.log(response);
+      if (response.data.data[0]) {
+        toast.error("User already exists!");
+      } else {
+        const user = {
+          name: data.name,
+          email: data.email,
+          status: "Test",
+          muted: false,
+          tokens: 0,
+        };
+        await axios.post(
+          `http://localhost:8000/api/customers?name=${data.name}`,
+          user
+        );
+        toast.success("Created successfully!");
+        reset();
+        setShowRegistered(false);
+      }
     } catch (error) {
       console.error("Error en el inicio de sesión:", error);
       toast.error("Error", error.message);
@@ -73,17 +77,29 @@ export default function Login() {
                         aria-labelledby="#contact-tab3"
                       >
                         <div className="form__tabs__wrap">
-                          <form action="#0" onSubmit={handleLogin}>
+                          <form
+                            action="#0"
+                            onSubmit={handleSubmit(handleLogin)}
+                          >
                             <div className="form__grp">
-                              <label htmlFor="email34">Email</label>
+                              <label htmlFor="name">User name</label>
                               <input
                                 type="text"
-                                placeholder="User"
-                                value={user}
-                                onChange={(e) => setUser(e.target.value)}
+                                name="name"
+                                placeholder="User name"
+                                {...register("name")}
                               />
                             </div>
                             <div className="form__grp">
+                              <label htmlFor="email">Email</label>
+                              <input
+                                type="email"
+                                name="email"
+                                placeholder="email@email.com"
+                                {...register("email")}
+                              />
+                            </div>
+                            {/* <div className="form__grp">
                               <label htmlFor="toggle-password9">Confrim</label>
                               <input
                                 type="password"
@@ -92,11 +108,14 @@ export default function Login() {
                                 onChange={(e) => setPassword(e.target.value)}
                               />
                               <span className="fa fa-fw fa-eye field-icon toggle-password9"></span>
-                            </div>
+                            </div> */}
                             <div className="create__btn">
-                              <button type="submit" className="cmn--btn">
-                                <span style={{ color: "white" }}>Sign up</span>
-                              </button>
+                              <input
+                                type="submit"
+                                className="cmn--btn"
+                                style={{ color: "white" }}
+                                value="Sign up"
+                              />
                             </div>
                             <p>
                               Do you have an account?{" "}

@@ -51,10 +51,15 @@ export default function Header() {
                 >
                   <span className="rela">Deposit</span>
                 </Link>
-                <Link to={"/"} className="cmn--btn2" data-bs-toggle="modal">
+                <Link
+                  to={"/withdraw"}
+                  className="cmn--btn2"
+                  data-bs-toggle="modal"
+                >
                   <span className="rela">Withdraw</span>
                 </Link>
-                <a
+                <Link
+                  to={"/"}
                   style={{
                     fontWeight: "bold",
                     color: "white",
@@ -67,7 +72,7 @@ export default function Header() {
                   }}
                 >
                   Log Out
-                </a>
+                </Link>
               </div>
             )}
             {!logged && (
