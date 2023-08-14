@@ -5,7 +5,7 @@ import { useUI } from "../contexts/UIContext";
 import { useParams } from "react-router-dom";
 import DepositInfo from "./depositRelated/DepositInfo";
 import CompleteYourForm from "./CompleteYourForm";
-export default function Deposit() {
+export default function CryptoTransaction() {
   const { depositResponses } = useUI();
   const { cryptoType } = useParams();
   useEffect(() => {

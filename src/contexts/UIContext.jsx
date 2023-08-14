@@ -55,26 +55,20 @@ export default function UIContextProvider({ children }) {
         }
       }
     }
-
     fetchData();
   }, [depositResponses]);
 
   useEffect(() => {
     async function fetchData() {
       if (logged && customerData) {
-        console.log({
-          id: customerData.id,
-          name: customerData.name,
-          email: customerData.email,
-          status: customerData.status,
-          muted: customerData.muted,
-          tokens: "newTotalAmount",
-        });
-
         try {
+          const response = await axios.get(
+            `${API_BASE_URL}/api/deposits?customer_id=${customerData.id}`
+          );
+          const values = response.data.data.map((item) => item.value);
           const newTotalAmount =
             totalAmount -
-            +withdrawResponses[withdrawResponses.length - 1].tokens;
+            +withdrawResponses[withdrawResponses.length - 1].value;
           const modifiedCustomerData = {
             id: customerData.id,
             name: customerData.name,
@@ -83,22 +77,18 @@ export default function UIContextProvider({ children }) {
             muted: customerData.muted,
             tokens: newTotalAmount,
           };
-          console.log(newTotalAmount);
-          if (newTotalAmount >= 0) {
-            await axios.put(
-              `${API_BASE_URL}/api/customers/${customerData.id}`,
-              modifiedCustomerData
-            );
-            setTotalAmount(newTotalAmount);
-          }
+          console.log(withdrawResponses);
+          await axios.put(
+            `${API_BASE_URL}/api/customers/${customerData.id}`,
+            modifiedCustomerData
+          );
+          setTotalAmount(newTotalAmount);
         } catch (error) {
-          toast.error("Error obtaining user data:", error);
+          console.error("Error obtaining user data:", error);
+          // toast.error("Error obtaining user data: " + error.message);
         }
-      } else {
-        toast.error("Not working");
       }
     }
-
     fetchData();
   }, [withdrawResponses]);
 
@@ -135,6 +125,10 @@ export default function UIContextProvider({ children }) {
     setDepositResponses([...depositResponses, response]);
   };
 
+  const setWithdrawResponse = (response) => {
+    setWithdrawResponses([...withdrawResponses, response]);
+  };
+
   const toggleExpanded = () => {
     setIsExpanded((prevState) => !prevState);
   };
@@ -146,7 +140,7 @@ export default function UIContextProvider({ children }) {
     depositResponses: depositResponses,
     setDepositResponse: setDepositResponse,
     withdrawResponses: withdrawResponses,
-    setWithdrawResponses: setWithdrawResponses,
+    setWithdrawResponse: setWithdrawResponse,
     totalAmount: totalAmount,
     logged: logged,
     setLogged: setLogged,

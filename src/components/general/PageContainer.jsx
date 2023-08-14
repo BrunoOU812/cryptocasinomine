@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Casino from "../Casino";
 import { useUI } from "../../contexts/UIContext";
 import Deposit from "../Deposit";
+import Transaction from "../Transaction";
 import { DepositRouter } from "../depositRelated/DepositRouter";
 import ConfirmDeposit from "../ConfirmDeposit";
 import RSGold from "../RSGold";
@@ -15,6 +16,7 @@ import Login from "../Login";
 import Register from "../Register";
 import RouletteGame from "../games/rouletteGame/RouletteGame";
 import Withdraw from "../Withdraw";
+import CryptoTransaction from "../CryptoTransaction";
 
 export default function PageContainer() {
   const { isExpanded } = useUI();
@@ -49,13 +51,20 @@ export default function PageContainer() {
             ></div>
             <Routes>
               <Route path="/" element={<Casino />} />
-              <Route path="/deposit" element={<Deposit />} />
               <Route path="/withdraw" element={<Withdraw />} />
+              <Route
+                path="/transaction/:transaction"
+                element={<Transaction />}
+              />
+              <Route
+                path="/transactionForm/:transaction/:cryptoType"
+                element={<CryptoTransaction />}
+              />
               <Route path="/confirmDeposit" element={<ConfirmDeposit />} />
-              <Route path="/RSGold" element={<RSGold />} />
+              {/* <Route path="/RSGold" element={<RSGold />} /> */}
               <Route path="/RouletteGame" element={<RouletteGame />} />
-              <Route path="/deposit/:cryptoType" element={<CryptoDeposit />} />
-              <Route path="/deposit/cryptochat" element={<CryptoChat />} />
+              {/* <Route path="/deposit/:cryptoType" element={<CryptoDeposit />} /> */}
+              <Route path="/:transaction/cryptochat" element={<CryptoChat />} />
             </Routes>
             <Footer />
           </div>

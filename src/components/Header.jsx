@@ -156,14 +156,14 @@ export default function Header() {
                 />
 
                 <Link
-                  to={"/deposit"}
+                  to={"/transaction/deposit"}
                   className="cmn--btn"
                   data-bs-toggle="modal"
                 >
                   <span className="rela">Deposit</span>
                 </Link>
                 <Link
-                  to={"/withdraw"}
+                  to={"/transaction/withdraw"}
                   className="cmn--btn2"
                   data-bs-toggle="modal"
                 >

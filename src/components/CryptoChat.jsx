@@ -11,6 +11,7 @@ import CryptoMsg from "./CryptoMsg";
 export default function Deposit() {
   const {
     depositResponses,
+    withdrawResponses,
     api,
     setDepositResponse,
     msg,
@@ -18,7 +19,7 @@ export default function Deposit() {
     customerData,
   } = useUI();
   const { register, reset, error, handleSubmit, watch } = useForm();
-  const { cryptoType } = useParams();
+  const { cryptoType, transaction } = useParams();
   console.log(cryptoType);
   const handleDepositNowClick = async (data) => {
     setMsg((prevState) => [
@@ -31,7 +32,13 @@ export default function Deposit() {
   return (
     <div className="container">
       <div className="row g-100 my-4">
-        <Ticket props={depositResponses[depositResponses.length - 1]} />
+        <Ticket
+          props={
+            transaction === "deposit"
+              ? depositResponses[depositResponses.length - 1]
+              : withdrawResponses[withdrawResponses.length - 1]
+          }
+        />
         <div
           className="col"
           style={{
@@ -74,6 +81,7 @@ export default function Deposit() {
                 borderRadius: "10px",
                 flex: 1,
                 marginRight: "10px",
+                color: "#444",
               }}
               {...register("msg")}
             />
