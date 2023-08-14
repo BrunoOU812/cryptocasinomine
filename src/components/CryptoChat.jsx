@@ -3,17 +3,35 @@ import CompleteYourDeposit from "./depositRelated/CompleteYourDeposit";
 import ConfirmDepositMsg from "./depositRelated/ConfirmDepositMsg";
 import { useUI } from "../contexts/UIContext";
 import { useParams } from "react-router-dom";
-import DepositInfo from "./depositRelated/DepositInfo";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
+import Ticket from "./Ticket";
+import CryptoMsg from "./CryptoMsg";
 export default function Deposit() {
-  const { depositResponses } = useUI();
+  const {
+    depositResponses,
+    api,
+    setDepositResponse,
+    msg,
+    setMsg,
+    customerData,
+  } = useUI();
+  const { register, reset, error, handleSubmit, watch } = useForm();
   const { cryptoType } = useParams();
-  useEffect(() => {
-    console.log(depositResponses);
-  }, [depositResponses]);
+  console.log(cryptoType);
+  const handleDepositNowClick = async (data) => {
+    setMsg((prevState) => [
+      ...prevState,
+      { to: customerData.name, comment: data.msg },
+    ]);
+    reset();
+  };
+
   return (
     <div className="container">
       <div className="row g-100 my-4">
-        <CompleteYourDeposit type={cryptoType}></CompleteYourDeposit>
+        <Ticket props={depositResponses[depositResponses.length - 1]} />
         <div
           className="col"
           style={{
@@ -23,12 +41,17 @@ export default function Deposit() {
             marginBottom: "2vw",
           }}
         >
-          {/* <div
+          <div
             id="confirmChat"
             style={{ flexGrow: 1, overflowY: "scroll", maxHeight: "700px" }}
           >
-            {depositResponses.map((response, index) => (
-              <ConfirmDepositMsg key={index} depositResponse={response} />
+            {msg.map((response, index) => (
+              <CryptoMsg
+                key={index}
+                props={{
+                  msg: response.comment,
+                }}
+              />
             ))}
           </div>
           <form
@@ -37,11 +60,13 @@ export default function Deposit() {
               backgroundColor: "#283968",
               borderRadius: "0 0 10px 10px",
             }}
+            onSubmit={handleSubmit(handleDepositNowClick)}
           >
             <input
               type="text"
               placeholder="Type chat messages here"
               className="px-2"
+              name="msg"
               style={{
                 height: "40px",
                 alignSelf: "center",
@@ -50,8 +75,9 @@ export default function Deposit() {
                 flex: 1,
                 marginRight: "10px",
               }}
+              {...register("msg")}
             />
-            <button
+            <input
               className="cmn--btn ml-auto"
               type="submit"
               style={{
@@ -60,11 +86,9 @@ export default function Deposit() {
                 border: "none",
                 color: "white",
               }}
-            >
-              <span>Send</span>
-            </button>
-          </form> */}
-          <DepositInfo></DepositInfo>
+              value="Send"
+            />
+          </form>
         </div>
       </div>
     </div>

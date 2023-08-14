@@ -1,6 +1,7 @@
 import React from "react";
-
+import { RxExternalLink } from "react-icons/rx";
 export default function Footer() {
+  const rightArrowImage = "assets/img/footer/rightarrow.png";
   return (
     <div>
       {" "}
@@ -59,49 +60,29 @@ export default function Footer() {
                   </div>
                   <div className="content-area">
                     <ul className="quick-link">
-                      <li>
+                      <li style={{ color: "var(--textcolor)" }}>
                         <span href="index.html">
-                          <img
-                            src="assets/img/footer/rightarrow.png"
-                            alt="angle"
-                          />{" "}
-                          Home
+                          <RxExternalLink></RxExternalLink> Home
                         </span>
                       </li>
-                      <li>
+                      <li style={{ color: "var(--textcolor)" }}>
                         <span>
-                          <img
-                            src="assets/img/footer/rightarrow.png"
-                            alt="angle"
-                          />{" "}
-                          Slots
+                          <RxExternalLink></RxExternalLink> Slots
                         </span>
                       </li>
-                      <li>
+                      <li style={{ color: "var(--textcolor)" }}>
                         <span>
-                          <img
-                            src="assets/img/footer/rightarrow.png"
-                            alt="angle"
-                          />{" "}
-                          Tournament
+                          <RxExternalLink></RxExternalLink> Tournament
                         </span>
                       </li>
-                      <li>
+                      <li style={{ color: "var(--textcolor)" }}>
                         <span>
-                          <img
-                            src="assets/img/footer/rightarrow.png"
-                            alt="angle"
-                          />{" "}
-                          Jackpots
+                          <RxExternalLink></RxExternalLink> Jackpots
                         </span>
                       </li>
-                      <li>
+                      <li style={{ color: "var(--textcolor)" }}>
                         <span href="livecasino.html">
-                          <img
-                            src="assets/img/footer/rightarrow.png"
-                            alt="angle"
-                          />{" "}
-                          Live Games
+                          <RxExternalLink></RxExternalLink> Live Games
                         </span>
                       </li>
                     </ul>
@@ -118,21 +99,15 @@ export default function Footer() {
                   </div>
                   <div className="content-area">
                     <ul className="quick-link">
-                      <li>
+                      <li style={{ color: "var(--textcolor)" }}>
                         <span>
-                          <img
-                            src="assets/img/footer/rightarrow.png"
-                            alt="angle"
-                          />{" "}
+                          <RxExternalLink></RxExternalLink>
                           Faqs
                         </span>
                       </li>
-                      <li>
+                      <li style={{ color: "var(--textcolor)" }}>
                         <span>
-                          <img
-                            src="assets/img/footer/rightarrow.png"
-                            alt="angle"
-                          />{" "}
+                          <RxExternalLink></RxExternalLink>
                           Support
                         </span>
                       </li>

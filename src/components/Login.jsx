@@ -18,7 +18,6 @@ export default function Login() {
       const response = await axios.get(
         `${api}/api/customers?name=${data.name}`
       );
-      console.log("id", response.data.data[0].id);
       if (response.data.data.length > 0) {
         toast.success("Logged successfully!");
         reset();

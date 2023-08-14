@@ -1,13 +1,21 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useUI } from "../../contexts/UIContext";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
-export default function CompleteYourDeposit() {
-  const { setDepositResponse, api } = useUI();
+export default function CompleteYourDeposit(props) {
+  const {
+    setDepositResponse,
+    api,
+    btcValue,
+    ethValue,
+    usdtValue,
+    setMsg,
+    selectedCoin,
+  } = useUI();
   const { register, reset, error, handleSubmit } = useForm();
-
+  const navigate = useNavigate();
   const handleDepositNowClick = async (data) => {
     try {
       const response = await axios.get(
@@ -36,13 +44,21 @@ export default function CompleteYourDeposit() {
           comment: data.comment,
         };
         setDepositResponse(deposit);
-
+        {
+          data.comment &&
+            setMsg((prevState) => [
+              ...prevState,
+              { to: customerData.name, comment: data.comment },
+            ]);
+        }
         try {
           await axios.post(`${api}/api/deposits`, deposit);
           reset();
         } catch (error) {
-          toast.error("Error making deposit:", error);
+          console.log("Error making deposit:", error);
+          // toast.error("Error making deposit:", error);
         }
+        navigate("/deposit/cryptochat");
       } else {
         toast.error("First complete the form correctly");
       }
@@ -68,14 +84,17 @@ export default function CompleteYourDeposit() {
           margin: "0 0 0 -10px",
         }}
       >
-        <h3>Complete Your Deposit</h3>
+        <h3>Complete Your {selectedCoin} Deposit</h3>
 
         <form action="#" onSubmit={handleSubmit(handleDepositNowClick)}>
           <div className="deposit__wallet">
             <div className="deopsit__wallet__items" style={{ border: "none" }}>
               <p>* Amount</p>
             </div>
-            <div className="single-input mb__20">
+            <div
+              className="single-input mb__20"
+              style={{ position: "relative" }}
+            >
               <input
                 type="text"
                 id="dAmount"
@@ -84,6 +103,16 @@ export default function CompleteYourDeposit() {
                 autoComplete="off"
                 {...register("amount")}
               />
+              {/* <div
+                className="amount-preview"
+                style={{
+                  paddingTop: "10px",
+                  color: "#888",
+                }}
+              >
+                Aproximately:&nbsp;{amountValue}&nbsp;
+                {props.type}
+              </div> */}
             </div>
             <div className="deopsit__wallet__items" style={{ border: "none" }}>
               <p>* Your-in-game-name:</p>

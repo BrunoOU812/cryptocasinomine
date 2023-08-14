@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useUI } from "../../contexts/UIContext";
 
 export default function ConfirmDepositMsg({ depositResponse }) {
+  const { customerData } = useUI();
   return (
     <div
       className="deposit__complate"

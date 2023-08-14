@@ -10,6 +10,7 @@ import { DepositRouter } from "../depositRelated/DepositRouter";
 import ConfirmDeposit from "../ConfirmDeposit";
 import RSGold from "../RSGold";
 import CryptoDeposit from "../CryptoDeposit";
+import CryptoChat from "../CryptoChat";
 import Login from "../Login";
 import Register from "../Register";
 import RouletteGame from "../games/rouletteGame/RouletteGame";
@@ -25,7 +26,7 @@ export default function PageContainer() {
       <div className="main__body__area">
         <div
           style={{
-            marginTop: `${87}px`,
+            marginTop: `${74}px`,
             position: "relative",
             display: "flex",
             flexDirection: "column",
@@ -53,7 +54,8 @@ export default function PageContainer() {
               <Route path="/confirmDeposit" element={<ConfirmDeposit />} />
               <Route path="/RSGold" element={<RSGold />} />
               <Route path="/RouletteGame" element={<RouletteGame />} />
-              <Route path="/crypto_deposit" element={<CryptoDeposit />} />
+              <Route path="/deposit/:cryptoType" element={<CryptoDeposit />} />
+              <Route path="/deposit/cryptochat" element={<CryptoChat />} />
             </Routes>
             <Footer />
           </div>

@@ -28,7 +28,7 @@ export default function Chat() {
     <div
       style={{
         position: "absolute",
-        top: "87px",
+        top: "73px",
         bottom: 0,
         right: 0,
         minWidth: isExpanded ? "342px" : "0",
