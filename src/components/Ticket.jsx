@@ -4,7 +4,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { useUI } from "../contexts/UIContext";
-export default function Ticket({ props }) {
+export default function Ticket({ props, transaction }) {
   const { selectedCoin, btcValue, ethValue, usdtValue } = useUI();
   console.log(props);
   let crypto;
@@ -42,7 +42,9 @@ export default function Ticket({ props }) {
         <form action="#">
           <div className="deposit__wallet">
             <div className="deopsit__wallet__items" style={{ border: "none" }}>
-              <h1 style={{ color: "white" }}>{selectedCoin}&nbsp;Ticket</h1>
+              <h1 style={{ color: "white", textTransform: "capitalize" }}>
+                {selectedCoin}&nbsp;Ticket&nbsp;{transaction}
+              </h1>
             </div>
             <div
               className="single-input mb__20"
@@ -50,7 +52,11 @@ export default function Ticket({ props }) {
             >
               <hr />
               <br />
-              <p style={{ fontSize: "1.5em" }}>
+              <p style={{ fontSize: "1.5em", textTransform: "capitalize" }}>
+                <span style={{ fontWeight: "bold" }}>Type:&nbsp;</span>{" "}
+                {transaction}
+                <br />
+                <br />
                 <span style={{ fontWeight: "bold" }}>To:&nbsp;</span> {props.to}
                 <br />
                 <br />
@@ -69,10 +75,8 @@ export default function Ticket({ props }) {
                 {props.datetime}
                 <br /> <br />{" "}
                 <span style={{ fontWeight: "bold" }}>Status:&nbsp;</span>{" "}
-                {/* {props.status}, */}
                 Complete
                 <br /> <br /> <br /> <br /> <br /> <br />
-                <br /> <br /> <br /> <br /> <br />{" "}
               </p>
             </div>
           </div>

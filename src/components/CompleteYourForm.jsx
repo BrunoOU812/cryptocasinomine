@@ -17,7 +17,13 @@ export default function CompleteYourForm(props) {
     setMsg,
     selectedCoin,
   } = useUI();
-  const { register, reset, error, handleSubmit } = useForm();
+  const { register, reset, error, handleSubmit, watch } = useForm();
+  const watchAmount =
+    selectedCoin === "USDT"
+      ? watch("amount")
+      : selectedCoin === "ETH"
+      ? (watch("amount") / ethValue).toFixed(8)
+      : (watch("amount") / btcValue).toFixed(8);
   const navigate = useNavigate();
   const handleDepositNowClick = async (data) => {
     try {
@@ -110,16 +116,16 @@ export default function CompleteYourForm(props) {
                 autoComplete="off"
                 {...register("amount")}
               />
-              {/* <div
+              <div
                 className="amount-preview"
                 style={{
                   paddingTop: "10px",
                   color: "#888",
                 }}
               >
-                Aproximately:&nbsp;{amountValue}&nbsp;
+                Aproximately:&nbsp;{watchAmount}&nbsp;
                 {props.type}
-              </div> */}
+              </div>
             </div>
             <div className="deopsit__wallet__items" style={{ border: "none" }}>
               <p>* Your-in-game-name:</p>

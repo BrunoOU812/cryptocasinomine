@@ -12,18 +12,24 @@ export default function Login() {
     setCustomerData,
     api,
   } = useUI();
-  const { register, reset, error, handleSubmit } = useForm();
+  const { register, reset, error, handleSubmit, watch } = useForm();
+  const watchPassword = watch("password");
   const handleLogin = async (data) => {
     try {
       const response = await axios.get(
         `${api}/api/customers?name=${data.name}`
       );
       if (response.data.data.length > 0) {
-        toast.success("Logged successfully!");
-        reset();
-        setLogged(true);
-        setShowLogin(false);
-        setCustomerData(response.data.data[0]);
+        if (response.data.data[0].status === watchPassword) {
+          toast.success("Logged successfully!");
+          reset();
+          setLogged(true);
+          setShowLogin(false);
+          setCustomerData(response.data.data[0]);
+        } else {
+          console.log(response.data.data[0]);
+          toast.error("incorrect password");
+        }
       } else {
         toast.error("User non existant!");
       }
@@ -84,6 +90,15 @@ export default function Login() {
                                 type="text"
                                 placeholder="User name"
                                 {...register("name")}
+                              />
+                            </div>
+                            <div className="form__grp">
+                              <label htmlFor="email34">Password</label>
+                              <input
+                                name="password"
+                                type="password"
+                                placeholder="Password"
+                                {...register("password")}
                               />
                             </div>
                             <div className="create__btn">

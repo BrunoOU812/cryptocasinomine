@@ -5,7 +5,8 @@ import { useUI } from "../contexts/UIContext";
 import { useForm } from "react-hook-form";
 export default function Login() {
   const { register, error, handleSubmit, reset } = useForm();
-  const { setShowLogin, setShowRegistered, api } = useUI();
+  const { setShowLogin, setShowRegistered, api, setCustomerData, setLogged } =
+    useUI();
   const handleLogin = async (data) => {
     try {
       const response = await axios.get(
@@ -18,11 +19,16 @@ export default function Login() {
         const user = {
           name: data.name,
           email: data.email,
-          status: "Test",
+          status: data.password,
           muted: false,
           tokens: 0,
         };
         await axios.post(`${api}/api/customers?name=${data.name}`, user);
+        const response = await axios.get(
+          `${api}/api/customers?name=${data.name}`
+        );
+        setCustomerData(response.data.data[0]);
+        setLogged(true);
         toast.success("Created successfully!");
         reset();
         setShowRegistered(false);
@@ -88,12 +94,21 @@ export default function Login() {
                               />
                             </div>
                             <div className="form__grp">
-                              <label htmlFor="email">Email</label>
+                              <label htmlFor="">Email</label>
                               <input
                                 type="email"
                                 name="email"
                                 placeholder="email@email.com"
                                 {...register("email")}
+                              />
+                            </div>
+                            <div className="form__grp">
+                              <label htmlFor="">Email</label>
+                              <input
+                                type="password"
+                                name="password"
+                                placeholder="Password"
+                                {...register("password")}
                               />
                             </div>
                             {/* <div className="form__grp">

@@ -38,6 +38,7 @@ export default function Deposit() {
               ? depositResponses[depositResponses.length - 1]
               : withdrawResponses[withdrawResponses.length - 1]
           }
+          transaction={transaction}
         />
         <div
           className="col"
