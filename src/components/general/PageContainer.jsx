@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Casino from "../Casino";
 import { useUI } from "../../contexts/UIContext";
 import Deposit from "../Deposit";
+import SignIn from "../SignIn";
 import Transaction from "../Transaction";
 import { DepositRouter } from "../depositRelated/DepositRouter";
 import ConfirmDeposit from "../ConfirmDeposit";
@@ -17,6 +18,8 @@ import Register from "../Register";
 import RouletteGame from "../games/rouletteGame/RouletteGame";
 import Withdraw from "../Withdraw";
 import CryptoTransaction from "../CryptoTransaction";
+import Profile from "../Profile";
+import PrivateRoute from "../PrivateRoute";
 
 export default function PageContainer() {
   const { isExpanded } = useUI();
@@ -51,20 +54,32 @@ export default function PageContainer() {
             ></div>
             <Routes>
               <Route path="/" element={<Casino />} />
-              <Route path="/withdraw" element={<Withdraw />} />
               <Route
                 path="/transaction/:transaction"
-                element={<Transaction />}
-              />
+                element={<PrivateRoute />}
+              >
+                <Route
+                  path="/transaction/:transaction"
+                  element={<Transaction />}
+                />
+              </Route>
               <Route
                 path="/transactionForm/:transaction/:cryptoType"
                 element={<CryptoTransaction />}
               />
-              <Route path="/confirmDeposit" element={<ConfirmDeposit />} />
-              {/* <Route path="/RSGold" element={<RSGold />} /> */}
-              <Route path="/RouletteGame" element={<RouletteGame />} />
-              {/* <Route path="/deposit/:cryptoType" element={<CryptoDeposit />} /> */}
-              <Route path="/:transaction/cryptochat" element={<CryptoChat />} />
+              <Route path="/RouletteGame" element={<PrivateRoute />}>
+                <Route path="/RouletteGame" element={<RouletteGame />} />
+              </Route>
+              <Route path="/:transaction/cryptochat" element={<PrivateRoute />}>
+                <Route
+                  path="/:transaction/cryptochat"
+                  element={<CryptoChat />}
+                />
+              </Route>
+              <Route path="/profile" element={<PrivateRoute />}>
+                <Route path="/profile" element={<Profile />} />
+              </Route>
+              <Route path="/signin" element={<SignIn />} />
             </Routes>
             <Footer />
           </div>

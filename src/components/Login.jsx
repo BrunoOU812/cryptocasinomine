@@ -9,6 +9,7 @@ export default function Login() {
     setShowLogin,
     setShowRegistered,
     setLogged,
+    CustomerData,
     setCustomerData,
     api,
   } = useUI();
@@ -26,6 +27,7 @@ export default function Login() {
           setLogged(true);
           setShowLogin(false);
           setCustomerData(response.data.data[0]);
+          console.log(CustomerData);
         } else {
           console.log(response.data.data[0]);
           toast.error("incorrect password");

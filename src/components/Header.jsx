@@ -94,43 +94,62 @@ export default function Header() {
                   <span className="h4">Casino</span>
                 </Link>
               </div>
-              {customerData && (
-                <Select
-                  current={
-                    <span
-                      className="current"
-                      style={{ fontWeight: "bold", fontSize: "1.2em" }}
-                    >
-                      <FaUser />
-                      &nbsp; &nbsp;{customerData.name}
-                    </span>
-                  }
-                  array={[
-                    {
-                      component: (
-                        <Link
-                          to={"/"}
-                          style={{
-                            fontWeight: "bold",
-                            color: "white",
-                            fontSize: "15px",
-                            cursor: "pointer",
-                          }}
-                          onClick={() => {
-                            setLogged(false);
-                            toast.success("Logged out!");
-                          }}
-                        >
-                          Log Out
-                        </Link>
-                      ),
-                    },
-                  ]}
-                />
-              )}
+              {/* {customerData && (
+                
+              )} */}
             </div>
             {logged && (
               <div className="mneu-btn-grp">
+                <div style={{ position: "absolute", left: "180px" }}>
+                  <Select
+                    current={
+                      <span
+                        className="current"
+                        style={{ fontWeight: "bold", fontSize: "1.2em" }}
+                      >
+                        <FaUser />
+                        &nbsp; &nbsp;{customerData.name}
+                      </span>
+                    }
+                    array={[
+                      {
+                        component: (
+                          <Link
+                            to={"/profile"}
+                            style={{
+                              fontWeight: "bold",
+                              color: "white",
+                              fontSize: "15px",
+                              cursor: "pointer",
+                            }}
+                          >
+                            Profile
+                          </Link>
+                        ),
+                      },
+                      {
+                        component: (
+                          <Link
+                            to={"/"}
+                            style={{
+                              fontWeight: "bold",
+                              color: "white",
+                              fontSize: "15px",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => {
+                              setLogged(false);
+                              toast.success("Logged out!");
+                            }}
+                          >
+                            Log Out
+                          </Link>
+                        ),
+                      },
+                    ]}
+                  />
+                </div>
+
                 <Select
                   current={selectedCryptoComponent}
                   array={[
