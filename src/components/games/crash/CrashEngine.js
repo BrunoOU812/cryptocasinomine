@@ -39,7 +39,7 @@ export class CrashEngine {
   }; //.bind(this);
 
   // Backend temporary
-  crash = 1 + Math.random() * 5;
+  crash = 1 + Math.random() * 1000;
 
   constructor() {
     console.log("constructor", this.crash);

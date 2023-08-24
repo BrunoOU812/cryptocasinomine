@@ -59,7 +59,8 @@ input.betInput {
   display: flex;
   position: relative;
   bottom: 10px;
-  justify-content: space-between;
+  //justify-content: space-between;
+  justify-content: center;
   /*left: 50%;
   transform: translateX(-50%);*/
   width: 200px;
@@ -70,9 +71,8 @@ input.betInput {
   //font-size: 1.6rem;
 
   button {
-    //padding: 4px 10px;
-    //font-size: 1.4em;
-    //color: crimson;
-    width: 45%;
+    padding: 4px 10px;
+    font-size: 1.4em;
+    //width: 45%;
   }
 }

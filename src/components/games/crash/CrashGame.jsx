@@ -311,21 +311,21 @@ const CrashGame = () => {
             type="number"
             defaultValue={minBet}
             className={styles.betInput}
-            disabled={cashedOut || engine?.state === CrashEngineState.OVER}
+            disabled={cashedOut || engine?.state === CrashEngineState.RUNNING}
             min={10}
             max={balance}
           />
           <button
             className={styles.setBet}
-            disabled={cashedOut || engine?.state === CrashEngineState.OVER}
+            disabled={cashedOut || engine?.state === CrashEngineState.RUNNING}
             //disabled={isRolling || isAutomatic}
             onClick={() => handleBet(inputRef.current.value)}
           >
-            Set Bet
+            Start
           </button>
         </div>
         <div className={styles.crashButtons}>
-          <button
+          {/* <button
             onClick={handleStart}
             disabled={
               cashedOut ||
@@ -334,7 +334,7 @@ const CrashGame = () => {
             }
           >
             Start
-          </button>
+          </button> */}
           <button
             onClick={handleCashOut}
             disabled={
