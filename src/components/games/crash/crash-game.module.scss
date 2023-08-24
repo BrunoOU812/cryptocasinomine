@@ -1,0 +1,78 @@
+$num_icons: 9;
+$icon_width: 79px;
+$icon_height: 79px;
+
+/*.debug {
+  position: fixed;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px;
+  background: white;
+  border: 1px solid rgba(black, 0.3);
+  font-family: monospace;
+  font-size: 1.6rem;
+}*/
+
+.mainContainer {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  //justify-content: center;
+  align-items: center;
+  //height: 650px;
+}
+
+.currentBalance {
+  color: white;
+  font-size: 1.5em;
+
+  .crashBalance {
+    color: yellow;
+  }
+}
+
+.currentBet {
+  color: white;
+  font-size: 1.5em;
+
+  .crashBet {
+    color: red;
+  }
+}
+
+input.betInput {
+  //background-color: white;
+  //height: 100px;
+  width: 100px;
+  color: red;
+  font-size: 1.4em;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.setBet {
+  font-size: 1.4em;
+}
+
+.crashButtons {
+  display: flex;
+  position: relative;
+  bottom: 10px;
+  justify-content: space-between;
+  /*left: 50%;
+  transform: translateX(-50%);*/
+  width: 200px;
+  padding: 4px;
+  //background: white;
+  //border: 1px solid rgba(black, 0.3);
+  //font-family: monospace;
+  //font-size: 1.6rem;
+
+  button {
+    //padding: 4px 10px;
+    //font-size: 1.4em;
+    //color: crimson;
+    width: 45%;
+  }
+}

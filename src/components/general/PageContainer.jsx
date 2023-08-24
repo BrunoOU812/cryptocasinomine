@@ -22,6 +22,7 @@ import Profile from "../Profile";
 import PrivateRoute from "../PrivateRoute";
 
 import SlotGame from "../games/slots/SlotGame";
+import CrashGame from "../games/crash/CrashGame";
 
 export default function PageContainer() {
   const { isExpanded } = useUI();
@@ -74,6 +75,9 @@ export default function PageContainer() {
               </Route>
               <Route path="/SlotGame" element={<PrivateRoute />}>
                 <Route path="/SlotGame" element={<SlotGame />} />
+              </Route>
+              <Route path="/CrashGame" element={<PrivateRoute />}>
+                <Route path="/CrashGame" element={<CrashGame />} />
               </Route>
               <Route path="/:transaction/cryptochat" element={<PrivateRoute />}>
                 <Route

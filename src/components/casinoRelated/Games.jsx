@@ -40,7 +40,9 @@ export default function Games() {
               </div>
               <div className="row g-4 pb-60">
                 <GameItem props={{ name: "Dice", img: jkImage }}></GameItem>
-                <GameItem props={{ name: "Crash", img: jk2Image }}></GameItem>
+                <GameItem
+                  props={{ game: "CrashGame", name: "Crash", img: jk2Image }}
+                ></GameItem>
                 <GameItem props={{ name: "Sports", img: jk4Image }}></GameItem>
                 <GameItem props={{ name: "Poker", img: jk6Image }}></GameItem>
                 <GameItem
