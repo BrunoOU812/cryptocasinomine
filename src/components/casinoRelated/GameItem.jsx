@@ -8,12 +8,12 @@ export default function GameItem({ props }) {
       <div className="casino__box">
         <img src={props.img} alt="game" />
         <div className="casino__overlay">
-          <Link to="/RouletteGame">
+          <Link to={props.game || "/RouletteGame"}>
             <img src={play} alt="img" />
           </Link>
         </div>
       </div>
-      <span className="h6">{props.game}</span>
+      <span className="h6">{props.name}</span>
     </div>
   );
 }

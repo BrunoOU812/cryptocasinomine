@@ -21,6 +21,8 @@ import CryptoTransaction from "../CryptoTransaction";
 import Profile from "../Profile";
 import PrivateRoute from "../PrivateRoute";
 
+import SlotGame from "../games/slots/SlotGame";
+
 export default function PageContainer() {
   const { isExpanded } = useUI();
   const maxWidthValue = isExpanded ? "100% - 342px" : "100%";
@@ -69,6 +71,9 @@ export default function PageContainer() {
               />
               <Route path="/RouletteGame" element={<PrivateRoute />}>
                 <Route path="/RouletteGame" element={<RouletteGame />} />
+              </Route>
+              <Route path="/SlotGame" element={<PrivateRoute />}>
+                <Route path="/SlotGame" element={<SlotGame />} />
               </Route>
               <Route path="/:transaction/cryptochat" element={<PrivateRoute />}>
                 <Route

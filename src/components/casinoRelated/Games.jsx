@@ -39,19 +39,23 @@ export default function Games() {
                 <span>Games</span>
               </div>
               <div className="row g-4 pb-60">
-                <GameItem props={{ game: "Dice", img: jkImage }}></GameItem>
-                <GameItem props={{ game: "Crash", img: jk2Image }}></GameItem>
-                <GameItem props={{ game: "Sports", img: jk4Image }}></GameItem>
-                <GameItem props={{ game: "Poker", img: jk6Image }}></GameItem>
+                <GameItem props={{ name: "Dice", img: jkImage }}></GameItem>
+                <GameItem props={{ name: "Crash", img: jk2Image }}></GameItem>
+                <GameItem props={{ name: "Sports", img: jk4Image }}></GameItem>
+                <GameItem props={{ name: "Poker", img: jk6Image }}></GameItem>
                 <GameItem
-                  props={{ game: "Blackjack", img: jk15Image }}
+                  props={{
+                    game: "RouletteGame",
+                    name: "Roulette",
+                    img: jk15Image,
+                  }}
                 ></GameItem>
                 <GameItem
-                  props={{ game: "Baccarat", img: jk14Image }}
+                  props={{ name: "Baccarat", img: jk14Image }}
                 ></GameItem>
-                <GameItem props={{ game: "War", img: jk9Image }}></GameItem>
+                <GameItem props={{ name: "War", img: jk9Image }}></GameItem>
                 <GameItem
-                  props={{ game: "Roulette", img: jk11Image }}
+                  props={{ game: "SlotGame", name: "Slots", img: jk11Image }}
                 ></GameItem>
               </div>
             </div>
