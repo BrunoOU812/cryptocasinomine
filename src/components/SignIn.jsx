@@ -8,7 +8,7 @@ export default function SignIn() {
   return (
     <div className="container">
       <div className="row g-100 my-4" style={{ flexWrap: "wrap" }}>
-        {showLogin ? <Login /> : <Register />}
+        {showLogin ? <Register /> : <Login />}
         <div
           className="col"
           style={{

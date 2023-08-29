@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useUI } from "../contexts/UIContext";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 export default function Login() {
   const {
     showLogin,
@@ -13,6 +14,7 @@ export default function Login() {
     setCustomerData,
     api,
   } = useUI();
+  const navigate = useNavigate();
   const { register, reset, error, handleSubmit, watch } = useForm();
   const watchPassword = watch("password");
   const handleLogin = async (data) => {
@@ -27,6 +29,7 @@ export default function Login() {
           setLogged(true);
           setShowLogin(false);
           setCustomerData(response.data.data[0]);
+          navigate("/");
           console.log(CustomerData);
         } else {
           console.log(response.data.data[0]);

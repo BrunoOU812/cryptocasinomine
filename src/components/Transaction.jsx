@@ -71,7 +71,7 @@ export default function Deposit() {
           >
             <SelectionComponent
               nomenclature="BTC"
-              to={`/transactionForm/${transaction}/BTC`}
+              to={`/cryptoWallet/${transaction}/BTC`}
               coin={
                 <FaBtc
                   style={{
@@ -83,9 +83,23 @@ export default function Deposit() {
                 />
               }
             />
+            {/* <SelectionComponent
+              nomenclature="BTC"
+              to={`/transactionForm/${transaction}/BTC`}
+              coin={
+                <FaBtc
+                  style={{
+                    backgroundColor: "orange",
+                    padding: "0.1em",
+                    borderRadius: "50%",
+                    fontSize: "5.5em",
+                  }}
+                />
+              }
+            /> */}
             <SelectionComponent
               nomenclature="ETH"
-              to={`/transactionForm/${transaction}/ETH`}
+              to={`/cryptoWallet/${transaction}/ETH`}
               coin={
                 <FaEthereum
                   style={{
@@ -99,7 +113,7 @@ export default function Deposit() {
             />
             <SelectionComponent
               nomenclature="USDT"
-              to={`/transactionForm/${transaction}/USDT`}
+              to={`/cryptoWallet/${transaction}/USDT`}
               coin={
                 <img
                   style={{

@@ -3,10 +3,12 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useUI } from "../contexts/UIContext";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 export default function Login() {
   const { register, error, handleSubmit, reset } = useForm();
   const { setShowLogin, setShowRegistered, api, setCustomerData, setLogged } =
     useUI();
+  const navigate = useNavigate();
   const handleLogin = async (data) => {
     try {
       const response = await axios.get(
@@ -32,6 +34,7 @@ export default function Login() {
         toast.success("Created successfully!");
         reset();
         setShowRegistered(false);
+        navigate("/");
       }
     } catch (error) {
       console.error("Error en el inicio de sesión:", error);

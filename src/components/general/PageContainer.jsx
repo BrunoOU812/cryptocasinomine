@@ -23,6 +23,7 @@ import PrivateRoute from "../PrivateRoute";
 
 import SlotGame from "../games/slots/SlotGame";
 import CrashGame from "../games/crash/CrashGame";
+import CryptoWallet from "../CryptoWallet";
 
 export default function PageContainer() {
   const { isExpanded } = useUI();
@@ -69,6 +70,10 @@ export default function PageContainer() {
               <Route
                 path="/transactionForm/:transaction/:cryptoType"
                 element={<CryptoTransaction />}
+              />
+              <Route
+                path="/cryptoWallet/:transaction/:cryptoType"
+                element={<CryptoWallet />}
               />
               <Route path="/RouletteGame" element={<PrivateRoute />}>
                 <Route path="/RouletteGame" element={<RouletteGame />} />
