@@ -20,7 +20,7 @@ import Withdraw from "../Withdraw";
 import CryptoTransaction from "../CryptoTransaction";
 import Profile from "../Profile";
 import PrivateRoute from "../PrivateRoute";
-
+import Roulette from "../games/components/Roulette";
 import SlotGame from "../games/slots/SlotGame";
 import CrashGame from "../games/crash/CrashGame";
 import CryptoWallet from "../CryptoWallet";
@@ -75,9 +75,9 @@ export default function PageContainer() {
                 path="/cryptoWallet/:transaction/:cryptoType"
                 element={<CryptoWallet />}
               />
-              <Route path="/RouletteGame" element={<PrivateRoute />}>
-                <Route path="/RouletteGame" element={<RouletteGame />} />
-              </Route>
+              {/* <Route path="/RouletteGame" element={<PrivateRoute />}> */}
+              <Route path="/RouletteGame" element={<Roulette />} />
+              {/* </Route> */}
               <Route path="/SlotGame" element={<PrivateRoute />}>
                 <Route path="/SlotGame" element={<SlotGame />} />
               </Route>
