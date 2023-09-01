@@ -80,9 +80,9 @@ export default function PageContainer() {
               <Route path="/CrashGame" element={<PrivateRoute />}>
                 <Route path="/CrashGame" element={<CrashGame />} />
               </Route>
-              {/* <Route path="/BlackjackGame" element={<PrivateRoute />}> */}
-              <Route path="/BlackjackGame" element={<BlackjackGame />} />
-              {/* </Route> */}
+              <Route path="/BlackjackGame" element={<PrivateRoute />}>
+                <Route path="/BlackjackGame" element={<BlackjackGame />} />
+              </Route>
               <Route path="/:transaction/cryptochat" element={<PrivateRoute />}>
                 <Route
                   path="/:transaction/cryptochat"

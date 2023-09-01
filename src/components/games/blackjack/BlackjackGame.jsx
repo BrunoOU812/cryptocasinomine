@@ -4,7 +4,14 @@ import Controls from "./components/Controls";
 import Hand from "./components/Hand";
 import jsonData from "./data/deck.json";
 
-const BlackjackGame = () => {
+import axios from "axios";
+import { API_BASE_URL } from "../../../apiConfig";
+
+import { useUI } from "../../../contexts/UIContext";
+
+const BlackjackGame = (props) => {
+  const { customerData } = useUI();
+
   const GameState = {
     bet: "bet",
     init: "init",
@@ -50,6 +57,8 @@ const BlackjackGame = () => {
   });
 
   useEffect(() => {
+    getUserBalance();
+
     if (gameState === GameState.init) {
       drawCard(Deal.user);
       drawCard(Deal.hidden);
@@ -251,6 +260,30 @@ const BlackjackGame = () => {
       setBalance(Math.round((balance + bet * 1) * 100) / 100);
       setMessage(Message.tie);
     }
+  };
+
+  ////// Backend
+
+  const getUserBalance = async () => {
+    const res = await axios.get(
+      `${API_BASE_URL}/api/customers/${customerData.id}`
+    );
+    setBalance(res.data.data.tokens);
+    return res.data.data;
+  };
+
+  const syncBalance = async (value = 0) => {
+    const user = await getUserBalance();
+
+    user.tokens += parseFloat(value);
+
+    axios
+      .put(`${API_BASE_URL}/api/customers/${customerData.id}`, user)
+      .then((res) => {
+        console.log(res);
+        //getUserBalance();
+        setBalance(res.data.data.tokens);
+      });
   };
 
   return (
