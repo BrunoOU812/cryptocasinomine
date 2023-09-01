@@ -25,6 +25,8 @@ import SlotGame from "../games/slots/SlotGame";
 import CrashGame from "../games/crash/CrashGame";
 import BlackjackGame from "../games/blackjack/BlackjackGame";
 
+import CryptoWallet from "../CryptoWallet";
+
 export default function PageContainer() {
   const { isExpanded } = useUI();
   const maxWidthValue = isExpanded ? "100% - 342px" : "100%";
@@ -70,6 +72,10 @@ export default function PageContainer() {
               <Route
                 path="/transactionForm/:transaction/:cryptoType"
                 element={<CryptoTransaction />}
+              />
+              <Route
+                path="/cryptoWallet/:transaction/:cryptoType"
+                element={<CryptoWallet />}
               />
               <Route path="/RouletteGame" element={<PrivateRoute />}>
                 <Route path="/RouletteGame" element={<RouletteGame />} />
