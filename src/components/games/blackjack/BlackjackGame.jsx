@@ -125,7 +125,8 @@ const BlackjackGame = (props) => {
 
   const placeBet = (amount) => {
     setBet(amount);
-    setBalance(Math.round((balance - amount) * 100) / 100);
+    //setBalance(Math.round((balance - amount) * 100) / 100);
+    syncBalance(amount * -1);
     setGameState(GameState.init);
   };
 
@@ -252,12 +253,14 @@ const BlackjackGame = (props) => {
 
   const checkWin = () => {
     if (userScore > dealerScore || dealerScore > 21) {
-      setBalance(Math.round((balance + bet * 2) * 100) / 100);
+      //setBalance(Math.round((balance + bet * 2) * 100) / 100);
+      syncBalance(Math.round(bet * 2 * 100) / 100);
       setMessage(Message.userWin);
     } else if (dealerScore > userScore) {
       setMessage(Message.dealerWin);
     } else {
-      setBalance(Math.round((balance + bet * 1) * 100) / 100);
+      //setBalance(Math.round((balance + bet * 1) * 100) / 100);
+      syncBalance(Math.round(bet * 1 * 100) / 100);
       setMessage(Message.tie);
     }
   };
@@ -276,6 +279,21 @@ const BlackjackGame = (props) => {
     const user = await getUserBalance();
 
     user.tokens += parseFloat(value);
+
+    const log = {
+      customer_id: customerData.id,
+      user_id: 2, //
+      datetime: new Date().toISOString().slice(0, 19).replace("T", " "),
+      awarded_tokens: value > 0 ? value : 0,
+      taken_tokens: value < 0 ? value : 0,
+      reason:
+        "Blackjack game " +
+        (value > 0 ? (value === bet ? "tie" : "win") : "bet"), // TODO: More details ?
+    };
+
+    axios.post(`${API_BASE_URL}/api/customer_balance_logs`, log).then((res) => {
+      console.log(res);
+    });
 
     axios
       .put(`${API_BASE_URL}/api/customers/${customerData.id}`, user)

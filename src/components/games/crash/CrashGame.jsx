@@ -272,7 +272,7 @@ const CrashGame = () => {
       datetime: new Date().toISOString().slice(0, 19).replace("T", " "),
       awarded_tokens: value > 0 ? value : 0,
       taken_tokens: value < 0 ? value : 0,
-      reason: "Crash game " + (value > 0 ? "cash out (win)" : "bet"),
+      reason: "Crash game " + (value > 0 ? "cash out (win)" : "bet"), // TODO: More details ?
     };
 
     axios.post(`${API_BASE_URL}/api/customer_balance_logs`, log).then((res) => {
