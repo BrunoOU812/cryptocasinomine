@@ -30,7 +30,6 @@ export default function Login() {
           setShowLogin(false);
           setCustomerData(response.data.data[0]);
           navigate("/");
-          console.log(CustomerData);
         } else {
           console.log(response.data.data[0]);
           toast.error("incorrect password");

@@ -15,7 +15,6 @@ import CryptoDeposit from "../CryptoDeposit";
 import CryptoChat from "../CryptoChat";
 import Login from "../Login";
 import Register from "../Register";
-import RouletteGame from "../games/rouletteGame/RouletteGame";
 import Withdraw from "../Withdraw";
 import CryptoTransaction from "../CryptoTransaction";
 import Profile from "../Profile";
@@ -24,6 +23,7 @@ import PrivateRoute from "../PrivateRoute";
 import SlotGame from "../games/slots/SlotGame";
 import CrashGame from "../games/crash/CrashGame";
 import CryptoWallet from "../CryptoWallet";
+import Roulette from "../games/roulette_components/Roulette";
 
 export default function PageContainer() {
   const { isExpanded } = useUI();
@@ -76,7 +76,7 @@ export default function PageContainer() {
                 element={<CryptoWallet />}
               />
               <Route path="/RouletteGame" element={<PrivateRoute />}>
-                <Route path="/RouletteGame" element={<RouletteGame />} />
+                <Route path="/RouletteGame" element={<Roulette />} />
               </Route>
               <Route path="/SlotGame" element={<PrivateRoute />}>
                 <Route path="/SlotGame" element={<SlotGame />} />

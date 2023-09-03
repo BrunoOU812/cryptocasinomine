@@ -43,7 +43,6 @@ export default function UIContextProvider({ children }) {
             muted: customerData.muted,
             tokens: newTotalAmount,
           };
-          console.log(depositResponses);
           await axios.put(
             `${API_BASE_URL}/api/customers/${customerData.id}`,
             modifiedCustomerData

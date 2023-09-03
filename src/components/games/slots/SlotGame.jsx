@@ -10,7 +10,7 @@ import { useUI } from "../../../contexts/UIContext";
 
 const SlotGame = (props) => {
   const { customerData } = useUI();
-
+  console.log(styles);
   //const debugEl = document.getElementById("debug");
   const iconMap = [
     "banana",
