@@ -55,6 +55,7 @@ export default function ContextProvider({ children }) {
     false,
   ]);
   // const [plays, setPlays] = useState([]);
+  const bank = useRef(0);
   const plays = useRef([]);
   const zeroPlay = useRef({});
   const eachPlay = useRef({});
@@ -244,27 +245,28 @@ export default function ContextProvider({ children }) {
   };
 
   useEffect(() => {
-    setBankValue(customerData.tokens);
+    bank.current = customerData.tokens;
+    setBankValue(bank.current);
   }, []);
-  // useEffect(() => {
-  //   if (previousNumbers.length < 0) {
-  //     async function fetchData() {
-  //       const modifiedCustomerData = {
-  //         id: customerData.id,
-  //         name: customerData.name,
-  //         email: customerData.email,
-  //         status: customerData.status,
-  //         muted: customerData.muted,
-  //         tokens: bankValue,
-  //       };
-  //       await axios.put(
-  //         `${API_BASE_URL}/api/customers/${customerData.id}`,
-  //         modifiedCustomerData
-  //       );
-  //     }
-  //     fetchData();
-  //   }
-  // }, [bankValue]);
+  useEffect(() => {
+    if (previousNumbers.length < 0) {
+      async function fetchData() {
+        const modifiedCustomerData = {
+          id: customerData.id,
+          name: customerData.name,
+          email: customerData.email,
+          status: customerData.status,
+          muted: customerData.muted,
+          tokens: bank.current,
+        };
+        await axios.put(
+          `${API_BASE_URL}/api/customers/${customerData.id}`,
+          modifiedCustomerData
+        );
+      }
+      fetchData();
+    }
+  }, [bank.current]);
   useEffect(() => {
     setEach(winArrays.eachNumbers);
     setColumn(winArrays.columnNumbers().reverse());

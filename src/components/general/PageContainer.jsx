@@ -19,7 +19,6 @@ import Withdraw from "../Withdraw";
 import CryptoTransaction from "../CryptoTransaction";
 import Profile from "../Profile";
 import PrivateRoute from "../PrivateRoute";
-import Roulette from "../games/components/Roulette";
 import SlotGame from "../games/slots/SlotGame";
 import CrashGame from "../games/crash/CrashGame";
 import CryptoWallet from "../CryptoWallet";
