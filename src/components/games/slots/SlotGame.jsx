@@ -229,6 +229,19 @@ const SlotGame = (props) => {
 
     user.tokens += parseFloat(value);
 
+    const log = {
+      customer_id: customerData.id,
+      user_id: 2, //
+      datetime: new Date().toISOString().slice(0, 19).replace("T", " "),
+      awarded_tokens: value > 0 ? value : 0,
+      taken_tokens: value < 0 ? value : 0,
+      reason: "Slot game " + (value > 0 ? "win" : "lose"),
+    };
+
+    axios.post(`${API_BASE_URL}/api/customer_balance_logs`, log).then((res) => {
+      console.log(res);
+    });
+
     axios
       .put(`${API_BASE_URL}/api/customers/${customerData.id}`, user)
       .then((res) => {
