@@ -21,6 +21,8 @@ import Profile from "../Profile";
 import PrivateRoute from "../PrivateRoute";
 import SlotGame from "../games/slots/SlotGame";
 import CrashGame from "../games/crash/CrashGame";
+import BlackjackGame from "../games/blackjack/BlackjackGame";
+
 import CryptoWallet from "../CryptoWallet";
 import Roulette from "../games/roulette_components/Roulette";
 
@@ -82,6 +84,9 @@ export default function PageContainer() {
               </Route>
               <Route path="/CrashGame" element={<PrivateRoute />}>
                 <Route path="/CrashGame" element={<CrashGame />} />
+              </Route>
+              <Route path="/BlackjackGame" element={<PrivateRoute />}>
+                <Route path="/BlackjackGame" element={<BlackjackGame />} />
               </Route>
               <Route path="/:transaction/cryptochat" element={<PrivateRoute />}>
                 <Route

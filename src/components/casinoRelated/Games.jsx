@@ -44,7 +44,13 @@ export default function Games() {
                   props={{ game: "CrashGame", name: "Crash", img: jk2Image }}
                 ></GameItem>
                 <GameItem props={{ name: "Sports", img: jk4Image }}></GameItem>
-                <GameItem props={{ name: "Poker", img: jk6Image }}></GameItem>
+                <GameItem
+                  props={{
+                    game: "BlackjackGame",
+                    name: "Poker",
+                    img: jk6Image,
+                  }}
+                ></GameItem>
                 <GameItem
                   props={{
                     game: "RouletteGame",
