@@ -24,7 +24,6 @@ export default function UIContextProvider({ children }) {
   const [usdtValue, setUsdtValue] = useState(0);
   const [msg, setMsg] = useState([]);
   const [selectedCoin, setSelectedCoin] = useState("");
-
   useEffect(() => {
     async function fetchData() {
       if (logged && customerData) {
@@ -160,6 +159,7 @@ export default function UIContextProvider({ children }) {
     setMsg: setMsg,
     selectedCoin: selectedCoin,
     setSelectedCoin: setSelectedCoin,
+    setTotalAmount,
   };
 
   return (

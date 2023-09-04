@@ -12,6 +12,7 @@ export const CasinoContext = createContext();
 export const useCasino = () => {
   return useContext(CasinoContext);
 };
+
 // Si la apuesta se gana se le devuelve lo apostado al jugador junto con la recompensa que es un numero que multiplica la apuesta es decir se paga X cantidad de veces
 // Numero se paga 35 veces
 // Medio, se paga 17 veces
@@ -24,7 +25,7 @@ export const useCasino = () => {
 // par o impar tanto como color se paga 1 vez
 
 export default function ContextProvider({ children }) {
-  const { customerData } = useUI();
+  const { customerData, setTotalAmount } = useUI();
   const rules = {
     each: 36,
     half: 17,
@@ -245,11 +246,15 @@ export default function ContextProvider({ children }) {
   };
 
   useEffect(() => {
-    bank.current = customerData.tokens;
-    setBankValue(bank.current);
+    if (bank.current === 0) {
+      bank.current = customerData.tokens;
+      setBankValue(bank.current);
+    }
   }, []);
+
   useEffect(() => {
-    if (previousNumbers.length < 0) {
+    console.log(customerData.id);
+    if (previousNumbers.length > 0) {
       async function fetchData() {
         const modifiedCustomerData = {
           id: customerData.id,
@@ -259,14 +264,22 @@ export default function ContextProvider({ children }) {
           muted: customerData.muted,
           tokens: bank.current,
         };
-        await axios.put(
-          `${API_BASE_URL}/api/customers/${customerData.id}`,
-          modifiedCustomerData
-        );
+        try {
+          await axios.put(
+            `${API_BASE_URL}/api/customers/${customerData.id}`,
+            modifiedCustomerData
+          );
+          console.log("successful put", bank.current);
+          setBankValue(bank.current);
+        } catch (error) {
+          console.error("Error al actualizar datos del cliente:", error);
+        }
       }
+      setBankValue(bank.current);
       fetchData();
     }
-  }, [bank.current]);
+  }, [bank.current, spin]);
+
   useEffect(() => {
     setEach(winArrays.eachNumbers);
     setColumn(winArrays.columnNumbers().reverse());
@@ -379,13 +392,16 @@ export default function ContextProvider({ children }) {
       verifyPlay.forEach(({ vrbl, bet }) => {
         Object.keys(vrbl.current).forEach((value) => {
           if (plays.current.includes(value) && vrbl.current[value] > 0) {
-            setBankValue((prevState) => prevState + vrbl.current[value] * bet);
+            bank.current = bank.current + vrbl.current[value] * bet;
           }
         });
       });
+      bank.current = bank.current - currentBet;
+      setTotalAmount(bank.current);
       setCurrentBet(0);
     }
   }, [previousNumbers]);
+
   useEffect(() => {
     if (currentBet === 0) {
       resetPlayVariables();
