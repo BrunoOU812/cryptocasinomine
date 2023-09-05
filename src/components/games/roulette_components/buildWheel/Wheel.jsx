@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import OuterRim from "./OuterRim";
 import Sect from "./Sect";
 import Cone from "./Cone";
@@ -13,6 +13,9 @@ import { HelmetProvider, Helmet } from "react-helmet-async";
 import { useCasino } from "../Context";
 import Ball from "./Ball";
 import { v4 as uuidv4 } from "uuid";
+
+import { Keyframes } from "../helpers/Keyframes";
+
 export default function Wheel() {
   const {
     spin,
@@ -22,13 +25,16 @@ export default function Wheel() {
     setPreviousNumbers,
     winningNumber,
   } = useCasino();
-  const [allowWheel, setAllowWheel] = useState(false);
+  /*const [allowWheel, setAllowWheel] = useState(false);
   const [ballAnimation, setBallAnimation] = useState(
     "ballRotate 1s linear infinite"
-  );
-  const [rotationFrom, setRotationFrom] = useState(0);
+  );*/
+  //const [rotationFrom, setRotationFrom] = useState(0);
   const [rotationTo, setRotationTo] = useState(0);
   const [style, setStyle] = useState(false);
+
+  const ballTrack = useRef(null);
+
   const wheelRotate = "wheelRotate 5s linear infinite";
   const numbers = [
     0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5,
@@ -55,62 +61,76 @@ export default function Wheel() {
     });
 
   useEffect(() => {
-    if (spin) {
-      // const winningSpin = 3;
-      const winningSpin = Math.floor(Math.random() * 36);
-      wheelnumbersAC.forEach((_, i) => {
-        if (wheelnumbersAC[i] == winningSpin) {
-          setRotationTo(i * 9.73 + 362);
-        }
-      });
-      winningNumber.current = winningSpin;
+    if (rotationTo) {
       setStyle(true);
-      setTimeout(() => {}, 2000);
+      setBallAnimation("ballRotate 1s linear infinite");
+
       setTimeout(() => {
-        // setBallAnimation("ballRotate 2s linear infinite");
+        setBallAnimation("ballRotate 2s linear infinite");
+      }, 2000);
+
+      setTimeout(() => {
+        setBallAnimation("ballStop 3s linear");
       }, 6000);
+
       setTimeout(() => {
-        // setRotationTo(degree);
+        console.log("rotationTo", rotationTo);
+        setBallRotation(rotationTo);
       }, 9000);
+
       setTimeout(() => {
         setSpin(false);
-        // setBallAnimation("ballStop 3s linear");
-        setBallAnimation("ballRotate 2s linear infinite");
         setSpinBtn(true);
         setStyle(false);
         clearBet(true);
-        setRotationFrom(rotationTo);
-        setPreviousNumbers((prevState) => [...prevState, winningSpin]);
-      }, 1000);
+        setPreviousNumbers((prevState) => [
+          ...prevState,
+          winningNumber.current.value,
+        ]);
+      }, 10000);
+    }
+  }, [rotationTo]);
+
+  useEffect(() => {
+    if (spin) {
+      // const winningSpin = 3;
+      const winningSpin = Math.floor(Math.random() * 36);
+
+      console.log("winningSpin", winningSpin);
+
+      winningNumber.current = winningSpin;
+      wheelnumbersAC.forEach((_, i) => {
+        if (wheelnumbersAC[i] === winningSpin) {
+          setRotationTo(i * 9.73 + 362);
+        }
+      });
     }
   }, [spin]);
+
+  const setBallRotation = (rotation) => {
+    ballTrack.current.style.transform = `rotate(-${rotationTo}deg)`;
+  };
+
+  const setBallAnimation = (ballAnimation) => {
+    ballTrack.current.style.animation = ballAnimation;
+  };
+
   return (
     <div
       className={styles["wheel"]}
       style={style ? { animation: `${wheelRotate}` } : {}}
     >
       <HelmetProvider>
-        <Helmet>
-          <style>
-            {`
-        @keyframes ballStop {
-          from { transform: rotate(-${rotationFrom}deg); }
-          to { transform: rotate(-${rotationTo}deg); }
-        }
-      `}
-          </style>
-        </Helmet>
+        <Keyframes
+          name="ballStop"
+          from={{ transform: "rotate(-0deg)" }}
+          to={{ transform: `rotate(-${rotationTo}deg)` }}
+        />
       </HelmetProvider>
 
       <OuterRim />
       {sectElements}
-      <div
-        className={styles[`ballTrack`]}
-        style={{
-          animation: `${style && ballAnimation}`,
-          transform: `rotate(-${rotationTo}deg)`,
-        }}
-      >
+      <div className={styles[`ballTrack`]} ref={ballTrack}>
         <Ball />
       </div>
       <Pockets />

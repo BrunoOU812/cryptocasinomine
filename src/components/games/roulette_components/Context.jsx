@@ -25,7 +25,13 @@ export const useCasino = () => {
 // par o impar tanto como color se paga 1 vez
 
 export default function ContextProvider({ children }) {
-  const { customerData, setTotalAmount } = useUI();
+  const { customerData1, setTotalAmount } = useUI();
+  const customerData = {
+    id: 15,
+    name: "test",
+    tokens: 1001,
+  };
+
   const rules = {
     each: 36,
     half: 17,
