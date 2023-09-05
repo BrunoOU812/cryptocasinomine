@@ -85,7 +85,7 @@ export default function Wheel() {
         clearBet(true);
         setPreviousNumbers((prevState) => [
           ...prevState,
-          winningNumber.current.value,
+          winningNumber.current,
         ]);
       }, 10000);
     }
