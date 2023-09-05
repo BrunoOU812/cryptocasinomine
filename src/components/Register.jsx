@@ -106,7 +106,7 @@ export default function Login() {
                               />
                             </div>
                             <div className="form__grp">
-                              <label htmlFor="">Email</label>
+                              <label htmlFor="">Password</label>
                               <input
                                 type="password"
                                 name="password"
