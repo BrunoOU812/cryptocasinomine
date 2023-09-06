@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Message() {
+export default function Message({ props }) {
   return (
     <div
       className="d-flex my-1"
@@ -12,8 +12,8 @@ export default function Message() {
       }}
     >
       <p style={{ fontSize: "1em", alignSelf: "center", lineHeight: "1.5" }}>
-        <span style={{ fontWeight: "bold" }}>Mia :</span> I had a fantastic
-        experience playing roulette here.
+        <span style={{ fontWeight: "bold" }}>{props.user} :</span>{" "}
+        {props.message}
       </p>
     </div>
   );

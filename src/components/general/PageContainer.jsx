@@ -22,10 +22,9 @@ import PrivateRoute from "../PrivateRoute";
 import SlotGame from "../games/slots/SlotGame";
 import CrashGame from "../games/crash/CrashGame";
 import BlackjackGame from "../games/blackjack/BlackjackGame";
-
 import CryptoWallet from "../CryptoWallet";
 import Roulette from "../games/roulette_components/Roulette";
-
+import Banner from "./Banner";
 export default function PageContainer() {
   const { isExpanded } = useUI();
   const maxWidthValue = isExpanded ? "100% - 342px" : "100%";
@@ -48,6 +47,7 @@ export default function PageContainer() {
           style={{ maxWidth: `calc(${maxWidthValue})` }}
         >
           <DepositRouter />
+
           {showLogin && <Login />}
           {showRegistered && <Register />}
           <div className="flex-grow-1 z-2 ">
@@ -98,6 +98,7 @@ export default function PageContainer() {
                 <Route path="/profile" element={<Profile />} />
               </Route>
               <Route path="/signin" element={<SignIn />} />
+              <Route path="*" element={<Banner />} />
             </Routes>
             <Footer />
           </div>

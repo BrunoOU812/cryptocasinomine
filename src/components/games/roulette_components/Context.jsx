@@ -312,8 +312,8 @@ export default function ContextProvider({ children }) {
   useEffect(() => {
     if (winningNumber.current !== null) {
       numRed.includes(winningNumber)
-        ? plays.current.push("BLACK")
-        : plays.current.push("RED");
+        ? plays.current.push("RED")
+        : plays.current.push("BLACK");
       winningNumber % 2 === 0
         ? plays.current.push("EVEN")
         : plays.current.push("ODD");

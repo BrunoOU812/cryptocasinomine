@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useUI, useUIUpdate } from "../../contexts/UIContext";
 import Message from "../chatRelated/Message";
 
@@ -8,22 +8,85 @@ export default function Chat() {
   const handleToggleExpanded = () => {
     toggleExpanded();
   };
+
   const [messages, setMessages] = useState([]);
+  const chatContainerRef = useRef(null);
 
-  // useEffect(() => {
-  //   const fetchChatData = async () => {
-  //     try {
-  //       const response = await fetch("http://localhost:8000/messages");
-  //       const data = await response.json();
-  //       setMessages(data);
-  //       console.log(messages);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
+  const initialMessages = [
+    {
+      user: "Mia",
+      message: "I had a fantastic experience playing roulette here.",
+    },
+    {
+      user: "John",
+      message: "The blackjack games are amazing!",
+    },
+    {
+      user: "Sophia",
+      message: "I just hit the jackpot in the slots!",
+    },
+    {
+      user: "David",
+      message: "The casino atmosphere is great.",
+    },
+    {
+      user: "Emma",
+      message: "I love the variety of games here.",
+    },
+    {
+      user: "Oliver",
+      message: "Has anyone tried the poker tables?",
+    },
+    {
+      user: "Ava",
+      message: "I'm on a winning streak today!",
+    },
+    {
+      user: "Noah",
+      message: "The customer service is top-notch.",
+    },
+    {
+      user: "Sophie",
+      message: "I recommend trying the roulette wheel.",
+    },
+    {
+      user: "Liam",
+      message: "This casino has the best rewards program.",
+    },
+  ];
 
-  //   fetchChatData();
-  // }, []);
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (initialMessages.length > messages.length) {
+        // Obtener un mensaje aleatorio de initialMessages
+        const randomIndex = Math.floor(Math.random() * initialMessages.length);
+        const randomMessage = initialMessages[randomIndex];
+
+        // Agregar el mensaje aleatorio a messages
+        if (messages.length < 20) {
+          setMessages((prevState) => [...prevState, randomMessage]);
+        } else {
+          const updated = [...messages];
+          updated.shift();
+          setMessages(updated);
+        }
+      } else {
+        clearInterval(timer); // Detener el temporizador cuando se hayan mostrado todos los mensajes
+      }
+    }, 2000 * (Math.random() * 9));
+  }, [messages, initialMessages]);
+
+  const scrollToBottom = () => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
   return (
     <div
       style={{
@@ -94,24 +157,32 @@ export default function Chat() {
         </div>
         <div
           id="messages"
-          className="w-100 flex-grow-1 d-flex flex-column align-content-center px-3 "
+          className="w-100 flex-grow-1 d-flex flex-column align-content-center px-3"
           style={{
             overflowY: "scroll",
             overflowX: "hidden",
             flexGrow: 1,
             backgroundColor: "#202a39",
           }}
+          ref={chatContainerRef}
         >
           <div
             id="chat"
-            className=" varyWidth d-flex flex-column justify-content-between "
+            className="varyWidth d-flex flex-column justify-content-between"
             style={{
               minWidth: isExpanded ? "342px" : "0",
-
               width: 0,
             }}
           >
-            <Message></Message>
+            {messages.map((msg, index) => (
+              <Message
+                key={index}
+                props={{
+                  user: msg.user,
+                  message: msg.message,
+                }}
+              />
+            ))}
           </div>
         </div>
         <form
