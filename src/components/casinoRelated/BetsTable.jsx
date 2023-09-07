@@ -25,6 +25,8 @@ export default function BetsTable() {
   const [dataList, setDataList] = useState([]);
   const [isAnimated, setIsAnimated] = useState(false);
   const [animation, setAnimation] = useState(0);
+  const [next, setNext] = useState(0);
+  const [duration, setDuration] = useState(1);
   const trQnt = useRef(8);
   const initialBets = [
     {
@@ -408,7 +410,27 @@ export default function BetsTable() {
       setIsAnimated(true);
       setAnimation(trQnt.current * trHeight);
     }, 500);
+    setTimeout(() => {
+      setNext((prevState) => prevState + 1);
+    }, 1200);
   }, []);
+
+  useEffect(() => {
+    if (next > 0) {
+      setTimeout(() => {
+        const updateDataList = [...dataList];
+        list.forEach((_) => {
+          updateDataList.pop();
+        });
+
+        setDataList([...list, ...updateDataList]);
+        setDuration(0);
+        setIsAnimated(false);
+        setAnimation(0);
+      }, 300);
+    }
+  }, [next]);
+
   return (
     <>
       <HelmetProvider>
@@ -417,7 +439,7 @@ export default function BetsTable() {
             {`
 #tbody {
     position: relative;
-    --transition-duration: 1s; /* Definir la duración de la transición en una variable */
+    --transition-duration: ${duration}s; /* Definir la duración de la transición en una variable */
 transition: transform var(--transition-duration) ease-in-out; /* Usar la variable en la propiedad transition */
 transform: translateY(${animation}px); /* Aplicar animación cuando isAnimated sea true */
     }
