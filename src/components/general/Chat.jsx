@@ -14,6 +14,7 @@ export default function Chat() {
   const [index, setIndex] = useState(1);
   const chatContainerRef = useRef(null);
   const [userScrolledUp, setUserScrolledUp] = useState(false);
+  const message = watch("message");
   const handleMessages = (data) => {
     setMessages((prevState) => [
       ...prevState,
@@ -69,11 +70,10 @@ export default function Chat() {
       if (initialMessages.length > messages.length) {
         const randomIndex = Math.floor(Math.random() * initialMessages.length);
         const randomMessage = initialMessages[randomIndex];
-
-        if (messages.length < 20) {
+        if (messages.length < 4) {
           setMessages((prevState) => [...prevState, randomMessage]);
         } else {
-          setMessages([]);
+          setMessages((prevState) => prevState.slice(1));
           setMessages((prevState) => [...prevState, randomMessage]);
         }
         setIndex((prevState) => prevState++);
@@ -227,7 +227,7 @@ export default function Chat() {
             style={{
               height: "40px",
               alignSelf: "center",
-              color: "black",
+              color: `${!customerData ? "white" : "black"}`,
               border: "none",
               borderRadius: "10px",
             }}
@@ -244,6 +244,7 @@ export default function Chat() {
               color: "white",
             }}
             value={"Send"}
+            disabled={!customerData || !message}
           />
         </form>
       </div>
