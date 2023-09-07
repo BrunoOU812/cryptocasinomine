@@ -360,7 +360,7 @@ export default function BetsTable() {
     setDataList(
       initialBets
         .filter((item, i) => {
-          return i < 8 ? item : false;
+          return i <= 8 ? item : false;
         })
         .map((item, i) => {
           return (
@@ -406,7 +406,7 @@ export default function BetsTable() {
     );
     setTimeout(() => {
       setIsAnimated(true);
-      setAnimation(trHeight * 8 - trQnt.current * trHeight);
+      setAnimation(trQnt.current * trHeight);
     }, 500);
   }, []);
   return (
