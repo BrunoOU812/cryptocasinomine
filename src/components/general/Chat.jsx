@@ -63,6 +63,113 @@ export default function Chat() {
       user: "Liam",
       message: "This casino has the best rewards program.",
     },
+    {
+      user: "Alice",
+      message: "I had an amazing time playing blackjack at this casino!",
+    },
+    {
+      user: "James",
+      message: "The slot machines in this casino are so much fun!",
+    },
+    {
+      user: "Sophia",
+      message: "I won a jackpot at this casino! Best day ever!",
+    },
+    {
+      user: "Oliver",
+      message: "The poker tables here are top-notch. Highly recommended!",
+    },
+    {
+      user: "Amelia",
+      message: "I love the ambiance of this casino. It's always a great time.",
+    },
+    {
+      user: "Benjamin",
+      message: "The staff at this casino is friendly and professional.",
+    },
+    {
+      user: "Mia",
+      message: "I had a fantastic experience playing roulette here.",
+    },
+    {
+      user: "Henry",
+      message: "The live dealer games at this casino are very entertaining.",
+    },
+    {
+      user: "Ava",
+      message:
+        "I always have a great time playing at this casino. Can't wait to come back!",
+    },
+    {
+      user: "William",
+      message:
+        "The VIP program at this casino offers excellent perks and rewards.",
+    },
+    {
+      user: "Charlotte",
+      message:
+        "I recommend trying out the specialty drinks at the casino bar. Delicious!",
+    },
+    {
+      user: "Daniel",
+      message:
+        "The customer service at this casino is exceptional. They go above and beyond to assist you.",
+    },
+    {
+      user: "Harper",
+      message:
+        "I had a great time attending the live shows and events at this casino.",
+    },
+    {
+      user: "Matthew",
+      message:
+        "The variety of games available at this casino is impressive. There's something for everyone.",
+    },
+    {
+      user: "Evelyn",
+      message:
+        "I enjoy the excitement and thrill of playing at this casino. It never gets old.",
+    },
+    {
+      user: "Liam",
+      message:
+        "The rewards program at this casino is worth joining. It offers great benefits.",
+    },
+    {
+      user: "Luna",
+      message:
+        "The casino tournaments here are intense and competitive. I love the challenge.",
+    },
+    {
+      user: "Lucas",
+      message:
+        "I appreciate the high level of security and fairness at this casino. It's reassuring.",
+    },
+    {
+      user: "Stella",
+      message:
+        "The restaurant options at this casino are fantastic. Great food and service.",
+    },
+    {
+      user: "Jackson",
+      message:
+        "I had a lucky streak at the craps table in this casino. It was an unforgettable experience.",
+    },
+    {
+      user: "Penelope",
+      message:
+        "The atmosphere of this casino is glamorous and luxurious. I felt like a VIP.",
+    },
+    {
+      user: "Sebastian",
+      message:
+        "I appreciate the responsible gambling measures implemented at this casino.",
+    },
+    {
+      user: "Chloe",
+      message:
+        "The loyalty program at this casino offers great incentives. I feel valued as a player.",
+    },
   ];
 
   useEffect(() => {

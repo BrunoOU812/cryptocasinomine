@@ -5447,88 +5447,7 @@ p {
 }
 /*Abstracts / reponsive*/
 /*CSS Table Of Content Ends End*//*# sourceMappingURL=main.css.map */
-#tbody {
-  position: relative;
-  --transition-duration: 1s; /* Definir la duración de la transición en una variable */
-transition: transform var(--transition-duration) ease-in-out; /* Usar la variable en la propiedad transition */
 
-  }
-
-.animate-down {
-  transform: translateY(var(--translate-y, 200px));
-  }
-  
-#divBelowTbody {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  }
-.tr{
-  color:white;
-  display: flex;
-  justify-content: space-between;
-  border-radius: 5px ;
-}
-.td{
-  width: 200px;
-}
-.table-striped #tbody .tr:nth-of-type(odd) {
-  color: white;
-background-color: #283352; /* Color de fondo para las filas impares */
-}
-
-.table-striped #tbody .tr:nth-of-type(even) {
-background-color: transparent; /* Color de fondo para las filas pares */
-}
-.table-striped #thead .tr {
-  background-color: transparent; /* Color de fondo para las filas impares */
-}
-.table-striped #thead {
-  border-color: transparent;
-}
-.table-striped #tbody .tr  {
-  height: 40px;
-  border-top: none;
-  border-bottom: none;
-}
-.table-striped #tbody .tr:nth-child(odd) .td {
-  color: #fff; /* Color de letra para las filas impares */
-}
-.table-striped #tbody .tr .td {
-  color: #fff; /* Color de letra para las filas impares */
-  border-top: none;
-  border-bottom: none;
-}
-.table-striped #divBelowTbody .tr:nth-of-type(odd) {
-color: white;
-background-color: #283352; /* Color de fondo para las filas impares */
-}
-
-.table-striped #divBelowTbody .tr:nth-of-type(even) {
-background-color: transparent; /* Color de fondo para las filas pares */
-}
-.table-striped #divBelowTbody .tr  {
-height: 40px;
-border-top: none;
-border-bottom: none;
-}
-.table-striped #divBelowTbody .tr:nth-child(odd) .td {
-color: #fff; /* Color de letra para las filas impares */
-}
-.table-striped #divBelowTbody .tr .td {
-color: #fff; /* Color de letra para las filas impares */
-border-top: none;
-border-bottom: none;
-}
-.varyWidth {
-transition: min-width 0.5s ease-in-out; /* Ajusta la duración y la función de tiempo según tus necesidades */
-}
-#toggle-button {
-transition: right 0.5s ease-in-out; /* Ajusta la duración y la función de tiempo según tus necesidades */
-}
 .d-flex.flex-row-reverse {
 max-width: 100%; /* Ajusta el valor según tus necesidades */
 overflow: hidden;
@@ -5540,3 +5459,4 @@ width: 100%;
 overflow: hidden;
 transition: max-width 0.5s ease-in-out; 
 }
+
