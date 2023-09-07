@@ -1,17 +1,26 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useUI, useUIUpdate } from "../../contexts/UIContext";
+import { useForm } from "react-hook-form";
 import Message from "../chatRelated/Message";
 
 export default function Chat() {
-  const { isExpanded } = useUI();
+  const { isExpanded, customerData } = useUI();
   const { toggleExpanded } = useUIUpdate();
   const handleToggleExpanded = () => {
     toggleExpanded();
   };
-
+  const { register, reset, error, handleSubmit, watch } = useForm();
   const [messages, setMessages] = useState([]);
+  const [index, setIndex] = useState(1);
   const chatContainerRef = useRef(null);
-
+  const [userScrolledUp, setUserScrolledUp] = useState(false);
+  const handleMessages = (data) => {
+    setMessages((prevState) => [
+      ...prevState,
+      { user: customerData.name, message: data.message },
+    ]);
+    reset();
+  };
   const initialMessages = [
     {
       user: "Mia",
@@ -58,22 +67,20 @@ export default function Chat() {
   useEffect(() => {
     const timer = setInterval(() => {
       if (initialMessages.length > messages.length) {
-        // Obtener un mensaje aleatorio de initialMessages
         const randomIndex = Math.floor(Math.random() * initialMessages.length);
         const randomMessage = initialMessages[randomIndex];
 
-        // Agregar el mensaje aleatorio a messages
         if (messages.length < 20) {
           setMessages((prevState) => [...prevState, randomMessage]);
         } else {
-          const updated = [...messages];
-          updated.shift();
-          setMessages(updated);
+          setMessages([]);
+          setMessages((prevState) => [...prevState, randomMessage]);
         }
+        setIndex((prevState) => prevState++);
       } else {
-        clearInterval(timer); // Detener el temporizador cuando se hayan mostrado todos los mensajes
+        clearInterval(timer);
       }
-    }, 2000 * (Math.random() * 9));
+    }, 2000 * (Math.random() * 9 + 5) * index);
   }, [messages, initialMessages]);
 
   const scrollToBottom = () => {
@@ -83,9 +90,31 @@ export default function Chat() {
     }
   };
 
+  const handleScroll = () => {
+    if (
+      chatContainerRef.current.scrollTop +
+        chatContainerRef.current.clientHeight <
+      chatContainerRef.current.scrollHeight
+    ) {
+      setUserScrolledUp(true);
+    } else {
+      setUserScrolledUp(false);
+    }
+  };
+
   useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+    chatContainerRef.current.addEventListener("scroll", handleScroll);
+
+    return () => {
+      chatContainerRef.current.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!userScrolledUp) {
+      scrollToBottom();
+    }
+  }, [messages, userScrolledUp]);
 
   return (
     <div
@@ -189,6 +218,7 @@ export default function Chat() {
           action="#0"
           className="d-flex justify-content-between  align-content-center p-3 "
           style={{ backgroundColor: "#283968" }}
+          onSubmit={handleSubmit(handleMessages)}
         >
           <input
             type="text"
@@ -197,11 +227,14 @@ export default function Chat() {
             style={{
               height: "40px",
               alignSelf: "center",
+              color: "black",
               border: "none",
               borderRadius: "10px",
             }}
+            {...register("message")}
+            disabled={!customerData}
           />
-          <button
+          <input
             className="cmn--btn ml-auto "
             type="submit"
             style={{
@@ -210,9 +243,8 @@ export default function Chat() {
               border: "none",
               color: "white",
             }}
-          >
-            <span>Send</span>
-          </button>
+            value={"Send"}
+          />
         </form>
       </div>
     </div>
