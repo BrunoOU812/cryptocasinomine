@@ -1,15 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { HelmetProvider, Helmet } from "react-helmet-async";
+import { v4 as uuidv4 } from "uuid";
 const Bet = ({ props }) => {
   const rowStyle = {
     color: "white",
-    backgroundColor: props.index % 2 === 0 ? "#283352" : "",
+    backgroundColor: props.index % 2 === 0 ? "#283352" : "black",
   };
   return (
-    <div
-      className="tr"
-      // style={rowStyle}
-    >
+    <div className="tr" style={rowStyle}>
       <div className="td">{props.game}</div>
       <div className="td">{props.user}</div>
       <div className="td">{props.time}</div>
@@ -26,6 +24,7 @@ export default function BetsTable() {
   const [isAnimated, setIsAnimated] = useState(false);
   const [animation, setAnimation] = useState(0);
   const [next, setNext] = useState(0);
+  const [shuffle, setShuffle] = useState(0);
   const [duration, setDuration] = useState(1);
   const trQnt = useRef(8);
   const initialBets = [
@@ -362,12 +361,18 @@ export default function BetsTable() {
     setDataList(
       initialBets
         .filter((item, i) => {
-          return i <= 8 ? item : false;
+          let rndIndex;
+          let even = false;
+          do {
+            rndIndex = Math.floor(Math.random() * initialBets.length);
+            even = rndIndex + 8 <= initialBets.length - 1 ? true : false;
+          } while (!even);
+          return i >= rndIndex && i < rndIndex + 8 ? item : false;
         })
         .map((item, i) => {
           return (
             <Bet
-              key={i}
+              key={`${uuidv4()}-${i - 1}`}
               props={{
                 game: item.game,
                 user: item.user,
@@ -381,18 +386,29 @@ export default function BetsTable() {
           );
         })
     );
+    setShuffle((prevState) => prevState + 1);
   }, []);
   useEffect(() => {
     trQntChanger();
     setList(
       initialBets
+        // .filter((item, i) => {
+        //   return i < trQnt.current ? item : false;
+        // })
         .filter((item, i) => {
-          return i < trQnt.current ? item : false;
+          let rndIndex;
+          let even = false;
+          do {
+            rndIndex = Math.floor(Math.random() * initialBets.length);
+            even =
+              rndIndex + trQnt.current <= initialBets.length - 1 ? true : false;
+          } while (!even);
+          return i >= rndIndex && i < rndIndex + trQnt.current ? item : false;
         })
         .map((item, i) => {
           return (
             <Bet
-              key={i}
+              key={`${uuidv4()}-${i}`}
               props={{
                 game: item.game,
                 user: item.user,
@@ -409,25 +425,29 @@ export default function BetsTable() {
     setTimeout(() => {
       setIsAnimated(true);
       setAnimation(trQnt.current * trHeight);
+      setDuration(1);
     }, 500);
     setTimeout(() => {
       setNext((prevState) => prevState + 1);
     }, 1200);
-  }, []);
+  }, [shuffle]);
 
   useEffect(() => {
     if (next > 0) {
       setTimeout(() => {
-        const updateDataList = [...dataList];
-        list.forEach((_) => {
-          updateDataList.pop();
-        });
-
-        setDataList([...list, ...updateDataList]);
+        // const updateDataList = [...dataList];
+        // list.forEach((_) => {
+        //   updateDataList.pop();
+        // });
+        // setDataList([...list, ...updateDataList]);
+        setDataList((prevState) => [...list, ...prevState]);
         setDuration(0);
         setIsAnimated(false);
         setAnimation(0);
       }, 300);
+      setTimeout(() => {
+        setShuffle((prevState) => prevState + 1);
+      }, 1500);
     }
   }, [next]);
 
@@ -445,7 +465,7 @@ transform: translateY(${animation}px); /* Aplicar animación cuando isAnimated s
     }
 
 .animate-down {
-    transform: translateY(var(--translate-y, 200px));
+    transform: translateY((${animation}px));
     }
 #divBelowTbody {
     position: absolute;
