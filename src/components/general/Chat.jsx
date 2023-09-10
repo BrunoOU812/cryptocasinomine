@@ -184,7 +184,7 @@ export default function Chat() {
         const randomMessage = initialMessages[randomIndex];
         setMessages((prevState) =>
           [...prevState, randomMessage].filter(
-            (_, i, arr) => i > arr.length - 20
+            (_, i, arr) => i > arr.length - 50
           )
         );
       }, time);
