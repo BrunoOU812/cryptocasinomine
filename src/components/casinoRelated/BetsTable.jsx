@@ -4,7 +4,13 @@ import { v4 as uuidv4 } from "uuid";
 const Bet = ({ props }) => {
   const rowStyle = {
     color: "white",
-    backgroundColor: props.index % 2 === 0 ? "#283352" : "black",
+    backgroundColor: props.even
+      ? props.index % 2 === 0
+        ? "#283352"
+        : "black"
+      : props.index % 2 === 0
+      ? "black"
+      : "#283352",
   };
   return (
     <div className="tr" style={rowStyle}>
@@ -27,6 +33,8 @@ export default function BetsTable() {
   const [shuffle, setShuffle] = useState(0);
   const [duration, setDuration] = useState(1);
   const trQnt = useRef(8);
+  const even = useRef(null);
+  const prevEven = useRef(null);
   const initialBets = [
     {
       game: "Blackjack",
@@ -351,22 +359,21 @@ export default function BetsTable() {
   ];
   const trQntChanger = () => {
     const rnd = () => Math.floor(Math.random() * 8);
-    let even = false;
-    do {
-      trQnt.current = rnd();
-      even = trQnt.current > 0 ? trQnt.current % 2 === 0 : false;
-    } while (!even);
+    trQnt.current = rnd();
   };
+
+  // first lap
   useEffect(() => {
+    let rndIndex;
+    let allowed = false;
+    // let even = false;
+    do {
+      rndIndex = Math.floor(Math.random() * initialBets.length);
+      allowed = rndIndex + 8 < initialBets.length ? true : false;
+    } while (!allowed);
     setDataList(
       initialBets
         .filter((item, i) => {
-          let rndIndex;
-          let even = false;
-          do {
-            rndIndex = Math.floor(Math.random() * initialBets.length);
-            even = rndIndex + 8 <= initialBets.length - 1 ? true : false;
-          } while (!even);
           return i >= rndIndex && i < rndIndex + 8 ? item : false;
         })
         .map((item, i) => {
@@ -381,6 +388,7 @@ export default function BetsTable() {
                 multiplier: item.multiplier,
                 payout: item.payout,
                 index: i,
+                even: true,
               }}
             />
           );
@@ -388,21 +396,33 @@ export default function BetsTable() {
     );
     setShuffle((prevState) => prevState + 1);
   }, []);
+
+  //loop starts.
   useEffect(() => {
     trQntChanger();
+    let rndIndex;
+    let allowed = false;
+    do {
+      rndIndex = Math.floor(Math.random() * initialBets.length);
+      allowed = rndIndex + 8 < initialBets.length ? true : false;
+    } while (!allowed);
+    // even.current = null;
+    if (even.current === null) {
+      even.current = trQnt.current % 2 === 0;
+    } else {
+      even.current =
+        trQnt.current % 2 === 0
+          ? prevEven.current === false
+            ? false
+            : true
+          : prevEven.current === false
+          ? true
+          : false;
+    }
+    prevEven.current = even.current;
     setList(
       initialBets
-        // .filter((item, i) => {
-        //   return i < trQnt.current ? item : false;
-        // })
         .filter((item, i) => {
-          let rndIndex;
-          let even = false;
-          do {
-            rndIndex = Math.floor(Math.random() * initialBets.length);
-            even =
-              rndIndex + trQnt.current <= initialBets.length - 1 ? true : false;
-          } while (!even);
           return i >= rndIndex && i < rndIndex + trQnt.current ? item : false;
         })
         .map((item, i) => {
@@ -417,6 +437,7 @@ export default function BetsTable() {
                 multiplier: item.multiplier,
                 payout: item.payout,
                 index: i,
+                even: even.current,
               }}
             />
           );
@@ -435,12 +456,9 @@ export default function BetsTable() {
   useEffect(() => {
     if (next > 0) {
       setTimeout(() => {
-        // const updateDataList = [...dataList];
-        // list.forEach((_) => {
-        //   updateDataList.pop();
-        // });
-        // setDataList([...list, ...updateDataList]);
-        setDataList((prevState) => [...list, ...prevState]);
+        const updateDataList = [...list, ...dataList];
+        setDataList(updateDataList);
+        setList([]);
         setDuration(0);
         setIsAnimated(false);
         setAnimation(0);
