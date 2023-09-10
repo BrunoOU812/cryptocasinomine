@@ -14,6 +14,8 @@ export default function Chat() {
   const [index, setIndex] = useState(1);
   const chatContainerRef = useRef(null);
   const [userScrolledUp, setUserScrolledUp] = useState(false);
+  const [sendMessage, setSendMessage] = useState(null);
+  const [shuffle, setShuffle] = useState(false);
   const message = watch("message");
   const handleMessages = (data) => {
     setMessages((prevState) => [
@@ -171,25 +173,31 @@ export default function Chat() {
         "The loyalty program at this casino offers great incentives. I feel valued as a player.",
     },
   ];
-
   useEffect(() => {
-    const timer = setInterval(() => {
-      if (initialMessages.length > messages.length) {
+    setSendMessage(true);
+  }, []);
+  useEffect(() => {
+    if (sendMessage !== null) {
+      const time = 500 * Math.random() * 9 + 5;
+      setTimeout(() => {
         const randomIndex = Math.floor(Math.random() * initialMessages.length);
         const randomMessage = initialMessages[randomIndex];
-        if (messages.length < 4) {
-          setMessages((prevState) => [...prevState, randomMessage]);
-        } else {
-          setMessages((prevState) => prevState.slice(1));
-          setMessages((prevState) => [...prevState, randomMessage]);
-        }
-        setIndex((prevState) => prevState++);
-      } else {
-        clearInterval(timer);
-      }
-    }, 2000 * (Math.random() * 9 + 5) * index);
-  }, [messages, initialMessages]);
-
+        setMessages((prevState) =>
+          [...prevState, randomMessage].filter(
+            (_, i, arr) => i > arr.length - 20
+          )
+        );
+      }, time);
+      setTimeout(() => {
+        setShuffle((prevState) => !prevState);
+      }, time + 1000);
+    }
+  }, [sendMessage]);
+  useEffect(() => {
+    setTimeout(() => {
+      setSendMessage((prevState) => !prevState);
+    }, 1000);
+  }, [shuffle]);
   const scrollToBottom = () => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop =
