@@ -7,9 +7,9 @@ const Bet = ({ props }) => {
     backgroundColor: props.even
       ? props.index % 2 === 0
         ? "#283352"
-        : "black"
+        : `#111421`
       : props.index % 2 === 0
-      ? "black"
+      ? `#111421`
       : "#283352",
   };
   return (
@@ -456,7 +456,7 @@ export default function BetsTable() {
   useEffect(() => {
     if (next > 0) {
       setTimeout(() => {
-        const updateDataList = [...list, ...dataList];
+        const updateDataList = [...list, ...dataList].filter((_, i) => i < 8);
         setDataList(updateDataList);
         setList([]);
         setDuration(0);
