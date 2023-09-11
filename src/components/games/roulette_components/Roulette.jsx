@@ -3,8 +3,9 @@ import ContextProvider from "./Context";
 import BettingBoard from "./buildBettingBoard/BettingBoard";
 import SpinBtn from "./buildBettingBoard/SpinBtn";
 import React from "react";
-import "./assets/styles.css";
+//import "./assets/styles.css";
 import styles from "./assets/styles.module.scss";
+
 export default function Roulette() {
   return (
     <ContextProvider>
