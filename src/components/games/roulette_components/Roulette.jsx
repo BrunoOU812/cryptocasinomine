@@ -1,9 +1,8 @@
 import Wheel from "./buildWheel/Wheel";
-import ContextProvider from "./Context";
+import ContextProvider, { useCasino } from "./Context";
 import BettingBoard from "./buildBettingBoard/BettingBoard";
 import SpinBtn from "./buildBettingBoard/SpinBtn";
 import React from "react";
-//import "./assets/styles.css";
 import styles from "./assets/styles.module.scss";
 
 export default function Roulette() {
@@ -23,6 +22,7 @@ export default function Roulette() {
           <BettingBoard />
           <SpinBtn />
         </div>
+        {/* <div>{plays !== undefined && plays}</div> */}
       </div>
     </ContextProvider>
   );

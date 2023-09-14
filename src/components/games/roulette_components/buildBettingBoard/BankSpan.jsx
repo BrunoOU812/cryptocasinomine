@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useCasino } from "../Context";
 
 export default function BankSpan() {
   const { bankValue } = useCasino();
-  return <div id="bankSpan">{"" + bankValue.toLocaleString("en-GB") + ""}</div>;
+  const [value, setValue] = useState(bankValue);
+  useEffect(() => {
+    setValue(bankValue);
+  }, [bankValue]);
+  return <div id="bankSpan">{"" + value.toLocaleString("en-GB") + ""}</div>;
 }

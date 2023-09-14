@@ -4,7 +4,6 @@ import styles from "../assets/styles.module.scss";
 
 export default function NumberBlock(props) {
   const [chip, setChip] = useState(false);
-  // const [chipValue, setChipValue] = useState(0);
   const chipValue = useRef(0);
   const [chipColour, setChipColour] = useState("red");
   const { clear, setBet, removeBet, ttbPlay, eachPlay } = useCasino();
@@ -42,7 +41,6 @@ export default function NumberBlock(props) {
       className={`${props.className1} ${props.className2}`}
       onClick={() => {
         setBet({ chip, setChip, chipValue });
-        console.log(props);
         props.nbClass === "tt1_block"
           ? (ttbPlay.current[`COLUMN_${props.ttbIndex}`] = chipValue.current)
           : (eachPlay.current[`EACH_${props.num}`] = chipValue.current);

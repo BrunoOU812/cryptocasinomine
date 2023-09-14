@@ -24,12 +24,14 @@ export default function Wheel() {
     clearBet,
     setPreviousNumbers,
     winningNumber,
+    setUpdateBank,
   } = useCasino();
   /*const [allowWheel, setAllowWheel] = useState(false);
   const [ballAnimation, setBallAnimation] = useState(
     "ballRotate 1s linear infinite"
   );*/
   //const [rotationFrom, setRotationFrom] = useState(0);
+  const [updateUpdateBank, setUpdateUpdateBank] = useState(false);
   const [rotationTo, setRotationTo] = useState(0);
   const [style, setStyle] = useState(false);
 
@@ -74,8 +76,7 @@ export default function Wheel() {
       }, 6000);
 
       setTimeout(() => {
-        console.log("rotationTo", rotationTo);
-        setBallRotation(rotationTo);
+        setBallRotation();
       }, 9000);
 
       setTimeout(() => {
@@ -87,16 +88,17 @@ export default function Wheel() {
           ...prevState,
           winningNumber.current,
         ]);
+        setUpdateUpdateBank((prevState) => !prevState);
       }, 10000);
     }
   }, [rotationTo]);
-
+  useEffect(() => {
+    setUpdateBank((prevState) => !prevState);
+  }, [updateUpdateBank]);
   useEffect(() => {
     if (spin) {
       // const winningSpin = 3;
       const winningSpin = Math.floor(Math.random() * 36);
-
-      console.log("winningSpin", winningSpin);
 
       winningNumber.current = winningSpin;
       wheelnumbersAC.forEach((_, i) => {
@@ -107,7 +109,7 @@ export default function Wheel() {
     }
   }, [spin]);
 
-  const setBallRotation = (rotation) => {
+  const setBallRotation = () => {
     ballTrack.current.style.transform = `rotate(-${rotationTo}deg)`;
   };
 

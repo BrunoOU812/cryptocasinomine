@@ -36,6 +36,7 @@ export default function ContextProvider({ children }) {
     column: 2,
     color: 2,
   };
+  const [updateBank, setUpdateBank] = useState(false);
   const [bankValue, setBankValue] = useState(0);
   const [currentBet, setCurrentBet] = useState(0);
   const [wager, setWager] = useState(5);
@@ -253,7 +254,6 @@ export default function ContextProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    console.log(customerData.id);
     if (previousNumbers.length > 0) {
       async function fetchData() {
         const modifiedCustomerData = {
@@ -269,17 +269,16 @@ export default function ContextProvider({ children }) {
             `${API_BASE_URL}/api/customers/${customerData.id}`,
             modifiedCustomerData
           );
-          console.log("successful put", bank.current);
-          setBankValue(bank.current);
         } catch (error) {
           console.error("Error al actualizar datos del cliente:", error);
         }
       }
-      setBankValue(bank.current);
       fetchData();
     }
   }, [bank.current, spin]);
-
+  useEffect(() => {
+    setBankValue(bank.current);
+  }, [updateBank]);
   useEffect(() => {
     setEach(winArrays.eachNumbers);
     setColumn(winArrays.columnNumbers().reverse());
@@ -315,8 +314,8 @@ export default function ContextProvider({ children }) {
         ? plays.current.push("RED")
         : plays.current.push("BLACK");
       winningNumber % 2 === 0
-        ? plays.current.push("EVEN")
-        : plays.current.push("ODD");
+        ? plays.current.push("ODD")
+        : plays.current.push("EVEN");
       const playGroups = [
         { array: column, prefix: "COLUMN", index: 2 },
         { array: dozen, prefix: "DOZEN", index: 2 },
@@ -353,23 +352,39 @@ export default function ContextProvider({ children }) {
 
   useEffect(() => {
     if (plays.current.length > 0) {
-      console.log(plays.current);
+      console.log("plays", plays.current);
       console.log(
-        zeroPlay,
-        eachPlay,
-        otoPlay,
-        ttbPlay,
-        bo3Play,
-        rowPlay,
-        quarter1Play,
-        quarter2Play,
-        halfH1Play,
-        halfH2Play,
-        halfV1Play,
-        halfV2Play,
-        halfV3Play,
-        halfBoard1Play,
-        halfBoard2Play
+        "Apuestas!",
+        "zeroPlay",
+        zeroPlay.current,
+        "eachPlay",
+        eachPlay.current,
+        "otoPlay",
+        otoPlay.current,
+        "ttbPlay",
+        ttbPlay.current,
+        "bo3Play",
+        bo3Play.current,
+        "rowPlay",
+        rowPlay.current,
+        "quarter1Play",
+        quarter1Play.current,
+        "quarter2Play",
+        quarter2Play.current,
+        "halfH1Play",
+        halfH1Play.current,
+        "halfH2Play",
+        halfH2Play.current,
+        "halfV1Play",
+        halfV1Play.current,
+        "halfV2Play",
+        halfV2Play.current,
+        "halfV3Play",
+        halfV3Play.current,
+        "halfBoard1Play",
+        halfBoard1Play.current,
+        "halfBoard2Play",
+        halfBoard2Play.current
       );
       const verifyPlay = [
         { vrbl: zeroPlay, bet: rules.each },
@@ -392,6 +407,7 @@ export default function ContextProvider({ children }) {
       verifyPlay.forEach(({ vrbl, bet }) => {
         Object.keys(vrbl.current).forEach((value) => {
           if (plays.current.includes(value) && vrbl.current[value] > 0) {
+            console.log("Apuesta ganadora: ", value);
             bank.current = bank.current + vrbl.current[value] * bet;
           }
         });
@@ -424,7 +440,7 @@ export default function ContextProvider({ children }) {
     if (!spin) {
       e.preventDefault();
       if (chipValue.current > 0) {
-        if (chipValue.current > wager) {
+        if (chipValue.current >= wager) {
           setBankValue((prevState) => prevState + wager);
           setCurrentBet((prevState) => prevState - wager);
           chipValue.current = chipValue.current - wager;
@@ -488,6 +504,8 @@ export default function ContextProvider({ children }) {
     halfV3Play,
     halfBoard1Play,
     halfBoard2Play,
+    plays,
+    setUpdateBank,
   };
   return (
     <CasinoContext.Provider value={casinoContextvalues}>

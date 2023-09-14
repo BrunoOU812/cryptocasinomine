@@ -3,11 +3,9 @@ import Zero from "./Zero";
 import Nbnz from "./Nbnz";
 import NumberBlock from "./NumberBlock";
 import Nbn from "./Nbn";
-import { useCasino } from "../Context";
 import { v4 } from "uuid";
 import styles from "../assets/styles.module.scss";
 export default function NumberBoard(props) {
-  const { setBet, removeBet, uuidv4 } = useCasino();
   let ttbIndex = -1;
   return (
     <div className={styles["number_board"]}>
