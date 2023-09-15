@@ -97,7 +97,7 @@ export default function Wheel() {
   }, [updateUpdateBank]);
   useEffect(() => {
     if (spin) {
-      // const winningSpin = 3;
+      // const winningSpin = 0;
       const winningSpin = Math.floor(Math.random() * 36);
 
       winningNumber.current = winningSpin;

@@ -310,12 +310,12 @@ export default function ContextProvider({ children }) {
 
   useEffect(() => {
     if (winningNumber.current !== null) {
-      numRed.includes(winningNumber)
+      numRed.includes(winningNumber.current)
         ? plays.current.push("RED")
         : plays.current.push("BLACK");
-      winningNumber % 2 === 0
-        ? plays.current.push("ODD")
-        : plays.current.push("EVEN");
+      winningNumber.current % 2 === 0
+        ? plays.current.push("EVEN")
+        : plays.current.push("ODD");
       const playGroups = [
         { array: column, prefix: "COLUMN", index: 2 },
         { array: dozen, prefix: "DOZEN", index: 2 },
