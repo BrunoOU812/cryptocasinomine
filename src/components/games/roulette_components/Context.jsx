@@ -419,6 +419,7 @@ export default function ContextProvider({ children }) {
           }
         });
       });
+      plays.current = [];
       bank.current = bank.current - currentBet;
       setTotalAmount(bank.current);
       setCurrentBet(0);
