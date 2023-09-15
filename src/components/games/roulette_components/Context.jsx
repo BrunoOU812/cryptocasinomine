@@ -390,8 +390,8 @@ export default function ContextProvider({ children }) {
         { vrbl: zeroPlay, bet: rules.each },
         { vrbl: eachPlay, bet: rules.each },
         { vrbl: otoPlay, bet: rules.color },
-        { vrbl: ttbPlay, bet: rules.each },
-        { vrbl: ttbbetPlay, bet: rules.each },
+        { vrbl: ttbPlay, bet: rules.column },
+        { vrbl: ttbbetPlay, bet: rules.halfRow },
         { vrbl: bo3Play, bet: rules.dozen },
         { vrbl: rowPlay, bet: rules.row },
         { vrbl: quarter1Play, bet: rules.quarter },
@@ -407,7 +407,14 @@ export default function ContextProvider({ children }) {
       verifyPlay.forEach(({ vrbl, bet }) => {
         Object.keys(vrbl.current).forEach((value) => {
           if (plays.current.includes(value) && vrbl.current[value] > 0) {
-            console.log("Apuesta ganadora: ", value);
+            console.log(
+              "Apuesta ganadora: ",
+              value,
+              "cobra",
+              vrbl.current[value] * bet,
+              "banco",
+              bank.current + vrbl.current[value] * bet
+            );
             bank.current = bank.current + vrbl.current[value] * bet;
           }
         });
