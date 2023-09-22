@@ -24,6 +24,7 @@ export default function CompleteYourForm(props) {
       : selectedCoin === "ETH"
       ? (watch("amount") / ethValue).toFixed(8)
       : (watch("amount") / btcValue).toFixed(8);
+  const coinID = selectedCoin === "BTC" ? 6 : selectedCoin === "ETH" ? 7 : 8;
   const navigate = useNavigate();
   const handleDepositNowClick = async (data) => {
     try {
@@ -41,17 +42,31 @@ export default function CompleteYourForm(props) {
       const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 
       if (customerData.length > 0) {
-        const customerId = customerData[0].id;
+        const customer = customerData[0];
 
-        const operation = {
-          to: data.name,
-          customer_id: customerId,
-          value: data.amount,
-          datetime: formattedDateTime,
-          crypto_id: 1,
-          status: "Pending",
-          comment: data.comment,
-        };
+        const operation =
+          transaction === "deposit"
+            ? {
+                to: data.name,
+                customer_id: customer.id,
+                value: data.amount,
+                datetime: formattedDateTime,
+                crypto_id: coinID,
+                status: "Pending",
+                comment: data.comment,
+              }
+            : {
+                to: data.name,
+                customer_id: customer.id,
+                customer_name: customer.name,
+                value: data.amount,
+                tokens: data.amount,
+                withdraw_address: "unknown",
+                datetime: formattedDateTime,
+                crypto_id: coinID,
+                status: "Pending",
+                comment: data.comment,
+              };
         transaction === "deposit"
           ? setDepositResponse(operation)
           : setWithdrawResponse(operation);
@@ -165,7 +180,11 @@ export default function CompleteYourForm(props) {
             </div>
           </div>
           <div className="btn-area">
-            <input type="submit" className="cmn--btn" value="Deposit Now" />
+            <input
+              type="submit"
+              className="cmn--btn"
+              value={`${transaction} Now`}
+            />
           </div>
         </form>
       </div>
