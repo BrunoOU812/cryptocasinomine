@@ -26,9 +26,10 @@ export default function UIContextProvider({ children }) {
   const [selectedCoin, setSelectedCoin] = useState("");
   const [transactionID, setTransactionID] = useState({
     type: "deposit",
-    id: "29",
+    id: "27",
   });
   const [check, setCheck] = useState(false);
+
   const fetchData = async () => {
     if (transactionID.type !== undefined && logged && customerData) {
       try {
@@ -52,11 +53,21 @@ export default function UIContextProvider({ children }) {
                   `${API_BASE_URL}/api/customers/${response.data.data.customer_id}`
                 );
                 customer.data.data.tokens =
-                  customer.data.data.tokens + response.data.data.value;
+                  transactionID.type === "deposit"
+                    ? customer.data.data.tokens + response.data.data.value
+                    : customer.data.data.tokens - response.data.data.value;
                 await axios.put(
-                  `${API_BASE_URL}/api/customers/${customerData.id}`,
+                  `${API_BASE_URL}/api/customers/${response.data.data.customer_id}`,
                   customer.data.data
                 );
+                setTotalAmount(customer.data.data.tokens);
+                setMsg((prevState) => [
+                  ...prevState,
+                  {
+                    to: "Admin",
+                    comment: `The ${transactionID.type} is successful!`,
+                  },
+                ]);
               }
             }
           }
@@ -70,71 +81,6 @@ export default function UIContextProvider({ children }) {
       setCheck((prevState) => !prevState);
     }, 5000);
   }, [check]);
-  useEffect(() => {
-    async function fetchData() {
-      if (logged && customerData) {
-        try {
-          const response = await axios.get(
-            `${API_BASE_URL}/api/deposits?customer_id=${customerData.id}`
-          );
-          const values = response.data.data.map((item) => item.value);
-          const newTotalAmount =
-            totalAmount + +depositResponses[depositResponses.length - 1].value;
-          const modifiedCustomerData = {
-            id: customerData.id,
-            name: customerData.name,
-            email: customerData.email,
-            status: customerData.status,
-            muted: customerData.muted,
-            tokens: newTotalAmount,
-          };
-          await axios.put(
-            `${API_BASE_URL}/api/customers/${customerData.id}`,
-            modifiedCustomerData
-          );
-          setTotalAmount(newTotalAmount);
-        } catch (error) {
-          console.error("Error obtaining user data:", error);
-          // toast.error("Error obtaining user data: " + error.message);
-        }
-      }
-    }
-    fetchData();
-  }, [depositResponses]);
-
-  useEffect(() => {
-    async function fetchData() {
-      if (logged && customerData) {
-        try {
-          const response = await axios.get(
-            `${API_BASE_URL}/api/deposits?customer_id=${customerData.id}`
-          );
-          const values = response.data.data.map((item) => item.value);
-          const newTotalAmount =
-            totalAmount -
-            +withdrawResponses[withdrawResponses.length - 1].value;
-          const modifiedCustomerData = {
-            id: customerData.id,
-            name: customerData.name,
-            email: customerData.email,
-            status: customerData.status,
-            muted: customerData.muted,
-            tokens: newTotalAmount,
-          };
-          console.log(withdrawResponses);
-          await axios.put(
-            `${API_BASE_URL}/api/customers/${customerData.id}`,
-            modifiedCustomerData
-          );
-          setTotalAmount(newTotalAmount);
-        } catch (error) {
-          console.error("Error obtaining user data:", error);
-          // toast.error("Error obtaining user data: " + error.message);
-        }
-      }
-    }
-    fetchData();
-  }, [withdrawResponses]);
 
   useEffect(() => {
     {

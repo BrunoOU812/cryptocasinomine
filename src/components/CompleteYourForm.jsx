@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -17,6 +17,9 @@ export default function CompleteYourForm(props) {
     selectedCoin,
     setTransactionID,
   } = useUI();
+  useEffect(() => {
+    setMsg([]);
+  }, []);
   const { register, reset, error, handleSubmit, watch } = useForm();
   const watchAmount =
     selectedCoin === "USDT"
@@ -40,6 +43,8 @@ export default function CompleteYourForm(props) {
       const minutes = now.getMinutes().toString().padStart(2, "0");
       const seconds = now.getSeconds().toString().padStart(2, "0");
       const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+      console.log("Complete your Form");
+      console.log(customerData);
 
       if (customerData.length > 0) {
         const customer = customerData[0];
@@ -74,7 +79,7 @@ export default function CompleteYourForm(props) {
           data.comment &&
             setMsg((prevState) => [
               ...prevState,
-              { to: customerData.name, comment: data.comment },
+              { to: customerData[0].name, comment: data.comment },
             ]);
         }
         try {

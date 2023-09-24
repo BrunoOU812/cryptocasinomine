@@ -20,7 +20,6 @@ export default function Deposit() {
   } = useUI();
   const { register, reset, error, handleSubmit, watch } = useForm();
   const { cryptoType, transaction } = useParams();
-  console.log(cryptoType);
   const handleDepositNowClick = async (data) => {
     setMsg((prevState) => [
       ...prevState,
@@ -57,6 +56,7 @@ export default function Deposit() {
               <CryptoMsg
                 key={index}
                 props={{
+                  to: response.to,
                   msg: response.comment,
                 }}
               />

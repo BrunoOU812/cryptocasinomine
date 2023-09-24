@@ -14,7 +14,7 @@ export default function CryptoMsg({ props }) {
         padding: "20px",
       }}
     >
-      <h5>{customerData.name}</h5>
+      <h5>{props.to}</h5>
       <hr />
       <p>{props.msg}</p>
     </div>
