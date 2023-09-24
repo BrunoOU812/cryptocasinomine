@@ -13,9 +13,9 @@ export default function CompleteYourForm(props) {
     api,
     btcValue,
     ethValue,
-    usdtValue,
     setMsg,
     selectedCoin,
+    setTransactionID,
   } = useUI();
   const { register, reset, error, handleSubmit, watch } = useForm();
   const watchAmount =
@@ -78,7 +78,11 @@ export default function CompleteYourForm(props) {
             ]);
         }
         try {
-          await axios.post(`${api}/api/${transaction}s`, operation);
+          const transAct = await axios.post(
+            `${api}/api/${transaction}s`,
+            operation
+          );
+          setTransactionID({ type: transaction, id: transAct.data.data.id });
           reset();
         } catch (error) {
           console.log(`Error making ${operation}:`, error);

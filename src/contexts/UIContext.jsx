@@ -24,6 +24,52 @@ export default function UIContextProvider({ children }) {
   const [usdtValue, setUsdtValue] = useState(0);
   const [msg, setMsg] = useState([]);
   const [selectedCoin, setSelectedCoin] = useState("");
+  const [transactionID, setTransactionID] = useState({
+    type: "deposit",
+    id: "29",
+  });
+  const [check, setCheck] = useState(false);
+  const fetchData = async () => {
+    if (transactionID.type !== undefined && logged && customerData) {
+      try {
+        const deposits = await axios.get(
+          `${API_BASE_URL}/api/${transactionID.type}s`
+        );
+        for (const item of deposits.data.data) {
+          if (item.id === +transactionID.id) {
+            const response = await axios.get(
+              `${API_BASE_URL}/api/${transactionID.type}s/${transactionID.id}`
+            );
+            if (
+              response.status === 200 &&
+              response.data.data.status === "Success"
+            ) {
+              const deleted = await axios.delete(
+                `${API_BASE_URL}/api/${transactionID.type}s/${transactionID.id}`
+              );
+              if (deleted.request.status === 200) {
+                const customer = await axios.get(
+                  `${API_BASE_URL}/api/customers/${response.data.data.customer_id}`
+                );
+                customer.data.data.tokens =
+                  customer.data.data.tokens + response.data.data.value;
+                await axios.put(
+                  `${API_BASE_URL}/api/customers/${customerData.id}`,
+                  customer.data.data
+                );
+              }
+            }
+          }
+        }
+      } catch (error) {}
+    }
+  };
+  useEffect(() => {
+    setTimeout(() => {
+      fetchData();
+      setCheck((prevState) => !prevState);
+    }, 5000);
+  }, [check]);
   useEffect(() => {
     async function fetchData() {
       if (logged && customerData) {
@@ -111,6 +157,7 @@ export default function UIContextProvider({ children }) {
         // const value = customerData === null ? 0 : customerData.tokens / data;
         // setValue(id === 8 ? value : value.toFixed(8));
         setValue(data);
+        setCheck((prevState) => !prevState);
       }
     };
 
@@ -160,6 +207,7 @@ export default function UIContextProvider({ children }) {
     selectedCoin: selectedCoin,
     setSelectedCoin: setSelectedCoin,
     setTotalAmount,
+    setTransactionID,
   };
 
   return (
